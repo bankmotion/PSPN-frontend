@@ -5,13 +5,14 @@ import { gsap } from "gsap";
 import useStyles from "./index.styles";
 import { MenuItems } from "../../constants/layout";
 import clsx from "clsx";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LeftSideBar = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const hoverRef = useRef<HTMLDivElement>(null);
   const menuRefs = useRef<(HTMLIFrameElement | null)[]>([]);
@@ -19,6 +20,8 @@ const LeftSideBar = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    if (activeIndex === null) return;
+
     if (hoverRef.current) {
       gsap.set(hoverRef.current, {
         top: menuRefs.current[activeIndex]?.offsetTop ?? 0,
@@ -26,6 +29,13 @@ const LeftSideBar = () => {
     }
     navigate(MenuItems[activeIndex].href);
   }, [activeIndex, navigate]);
+
+  useEffect(() => {
+    const index = MenuItems.findIndex(
+      (item) => item.href === location.pathname
+    );
+    setActiveIndex(index !== -1 ? index : 0);
+  }, [location.pathname]);
 
   const handleHover = (index: number, event: React.MouseEvent<HTMLElement>) => {
     setHoverIndex(index);
@@ -39,6 +49,8 @@ const LeftSideBar = () => {
   };
 
   const handleLeave = () => {
+    if (activeIndex === null) return;
+
     setHoverIndex(null);
     if (hoverRef.current) {
       gsap.to(hoverRef.current, {
@@ -49,11 +61,9 @@ const LeftSideBar = () => {
     }
   };
 
-  console.log({ anchorEl });
-
   return (
     <Box className={classes.leftPanel}>
-      <Box className={classes.logoPart}>Logo</Box>
+      <Box className={classes.logoPart}>PSPN</Box>
       <Box className={classes.menuItems}>
         <Box className={classes.hoverBorder} ref={hoverRef}></Box>
         {MenuItems.map((item, index) => (

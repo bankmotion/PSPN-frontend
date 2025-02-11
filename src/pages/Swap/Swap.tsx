@@ -1,6 +1,7 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 
 import useStyles from "./index.styles";
+import SwapPanel from "../../components/SwapPanel/Index";
 
 const Swap = () => {
   const { classes } = useStyles();
@@ -8,7 +9,9 @@ const Swap = () => {
   return (
     <Box>
       <Box className={classes.body}>
-        <Typography variant="h5">Exchange</Typography>
+        <Box className={classes.swapPanel}>
+          <SwapPanel />
+        </Box>
       </Box>
     </Box>
   );

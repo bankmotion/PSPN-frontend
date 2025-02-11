@@ -42,6 +42,7 @@ const styles = makeStyles()((theme: any) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    fontSize: 20,
   },
 
   menuItems: {
