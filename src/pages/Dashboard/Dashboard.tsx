@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, Box, Button } from "@mui/material";
 import SavingsIcon from "@mui/icons-material/Savings";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -6,9 +6,22 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 
 import useStyles from "./index.styles";
 import clsx from "clsx";
+import { formatNumberWithCommas } from "../../utils";
 
 const Dashboard: React.FC = () => {
   const { classes } = useStyles();
+  const [expectedYeildAmount, setExpectedYieldAmount] = useState(56312);
+  const [grwoRate, setGrowRate] = useState(3);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setExpectedYieldAmount((amount) => amount + grwoRate);
+    }, 100);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [grwoRate]);
 
   return (
     <Box className={classes.body}>
@@ -34,7 +47,8 @@ const Dashboard: React.FC = () => {
             Expected Yield
           </Box>
           <Box className={classes.valuePart}>
-            <Box component={"span"}>$</Box> 56,312
+            <Box component={"span"}>$</Box>{" "}
+            {formatNumberWithCommas(expectedYeildAmount)}
           </Box>
         </Box>
 
