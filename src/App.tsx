@@ -15,7 +15,7 @@ function App() {
 
           <Route path="/dashboard" element={<Dashboard />} />
 
-          <Route path="/swap" element={<Swap />} />
+          {/* <Route path="/swap" element={<Swap />} /> */}
         </Routes>
       </Layout>
     </Router>

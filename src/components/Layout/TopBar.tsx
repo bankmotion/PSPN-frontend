@@ -7,8 +7,7 @@ import { getShortAddress } from "../../utils";
 const TopBar = () => {
   const { classes } = useStyles();
 
-  const { wallet, connectWallet, disconnectWallet, account, isConnected } =
-    useWallet();
+  const { connectWallet, disconnectWallet, account, isConnected } = useWallet();
 
   console.log({ account });
 
@@ -17,9 +16,9 @@ const TopBar = () => {
       <Box className={classes.topBarRightPanel}>
         <Button
           className={classes.connectButton}
-          onClick={
-            isConnected ? () => disconnectWallet() : () => connectWallet()
-          }
+          // onClick={
+          //   isConnected ? () => disconnectWallet() : () => connectWallet()
+          // }
         >
           {isConnected ? getShortAddress(account) : "Connect Wallet"}
         </Button>
