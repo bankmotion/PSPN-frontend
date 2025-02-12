@@ -16,9 +16,9 @@ const TopBar = () => {
       <Box className={classes.topBarRightPanel}>
         <Button
           className={classes.connectButton}
-          // onClick={
-          //   isConnected ? () => disconnectWallet() : () => connectWallet()
-          // }
+          onClick={
+            isConnected ? () => disconnectWallet() : () => connectWallet()
+          }
         >
           {isConnected ? getShortAddress(account) : "Connect Wallet"}
         </Button>
