@@ -43,8 +43,12 @@ const styles = makeStyles()((theme: any) => ({
     width: "100%",
     justifyContent: "center",
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       flexDirection: "column",
+      alignItems: "center",
+    },
+
+    [theme.breakpoints.down("sm")]: {
       gap: 12,
     },
   },
