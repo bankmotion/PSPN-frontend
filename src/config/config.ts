@@ -6,6 +6,7 @@ export const ChainConfig = {
   chainIdHex: 0x171,
   blockTime: 3000,
   providerList: ["https://rpc.pulsechain.com"],
+  explorerUrl: "https://otter.pulsechain.com/",
 };
 
 export const AppConfig = {
