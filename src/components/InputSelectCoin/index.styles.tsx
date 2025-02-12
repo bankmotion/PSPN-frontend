@@ -3,7 +3,7 @@ import { makeStyles } from "tss-react/mui";
 const styles = makeStyles()((theme: any) => ({
   select: {
     color: "#fff",
-    fontSize: "1.2rem",
+    fontSize: "18px",
     background: "none",
 
     "& .MuiSelect-select": {
@@ -14,6 +14,10 @@ const styles = makeStyles()((theme: any) => ({
 
     "& .MuiSelect-icon": {
       color: "#fff",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 14,
     },
   },
 
@@ -32,6 +36,12 @@ const styles = makeStyles()((theme: any) => ({
     width: 36,
     height: 36,
     borderRadius: 36,
+
+    [theme.breakpoints.down("sm")]: {
+      width: 24,
+      height: 24,
+      borderRadius: 24,
+    },
   },
 
   selectMenuItem: {

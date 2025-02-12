@@ -5,19 +5,36 @@ const styles = makeStyles()((theme: any) => ({
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    fontFamily: "philosopher",
-    justifyContent: "center",
     height: "100%",
     gap: 64,
+
+    [theme.breakpoints.down("lg")]: {
+      gap: 32,
+    },
   },
 
   title: {
     maxWidth: 1000,
     textAlign: "center",
     fontWeight: "bold",
-    fontFamily: "philosopher",
     filter: "brightness(1.5) drop-shadow(0px 0px 6px #b5b5b5)",
-    marginTop: -56,
+    marginTop: 56,
+    fontSize: 48,
+
+    [theme.breakpoints.down("xl")]: {
+      fontSize: 32,
+      marginTop: 0,
+      maxWidth: 800,
+    },
+
+    [theme.breakpoints.down("lg")]: {
+      fontSize: 24,
+      maxWidth: 600,
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 20,
+    },
   },
 
   panelBox: {
@@ -25,6 +42,11 @@ const styles = makeStyles()((theme: any) => ({
     gap: 24,
     width: "100%",
     justifyContent: "center",
+
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+      gap: 12,
+    },
   },
 
   panel: {
@@ -38,6 +60,24 @@ const styles = makeStyles()((theme: any) => ({
     flexDirection: "column",
     gap: 24,
     position: "relative",
+
+    [theme.breakpoints.down("xl")]: {
+      maxWidth: 300,
+      minWidth: 260,
+      height: 100,
+    },
+
+    [theme.breakpoints.down("lg")]: {
+      maxWidth: 250,
+      minWidth: 200,
+      height: 80,
+      padding: "8px 8px",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      gap: 12,
+      height: 70,
+    },
   },
 
   panelCircle: {
@@ -71,6 +111,14 @@ const styles = makeStyles()((theme: any) => ({
     "& svg": {
       fontSize: 28,
     },
+
+    [theme.breakpoints.down("xl")]: {
+      fontSize: 17,
+    },
+
+    [theme.breakpoints.down("lg")]: {
+      fontSize: 15,
+    },
   },
 
   valuePart: {
@@ -80,6 +128,14 @@ const styles = makeStyles()((theme: any) => ({
 
     "& span": {
       color: "#666873",
+    },
+
+    [theme.breakpoints.down("xl")]: {
+      fontSize: 25,
+    },
+
+    [theme.breakpoints.down("lg")]: {
+      fontSize: 20,
     },
   },
 
@@ -96,7 +152,6 @@ const styles = makeStyles()((theme: any) => ({
     cursor: "pointer",
     minWidth: 240,
     height: 60,
-    fontFamily: "philosopher",
     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
     transition: "transform 0.2s, box-shadow 0.2s",
     textTransform: "none",
@@ -109,6 +164,18 @@ const styles = makeStyles()((theme: any) => ({
     "&:active": {
       transform: "translateY(1px)",
       boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+    },
+
+    [theme.breakpoints.down("xl")]: {
+      fontSize: 18,
+      minWidth: 220,
+      height: 48,
+    },
+
+    [theme.breakpoints.down("lg")]: {
+      fontSize: 15,
+      minWidth: 200,
+      height: 40,
     },
   },
 }));

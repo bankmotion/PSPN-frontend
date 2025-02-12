@@ -13,8 +13,8 @@ code {
 }
 
 ::-webkit-scrollbar {
-  width: 8px; /* For vertical scrollbars */
-  height: 8px; /* For horizontal scrollbars */
+  width: 4px; /* For vertical scrollbars */
+  height: 4px; /* For horizontal scrollbars */
 }
 
 /* Track (the background of the scrollbar) */

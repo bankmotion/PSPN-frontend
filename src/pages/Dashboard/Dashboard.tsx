@@ -25,10 +25,10 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box className={classes.body}>
-      <Typography variant="h3" className={classes.title}>
+      <Box className={classes.title}>
         Track your holdings, monitor your earnings, and watch your yield grow in
         real-time.
-      </Typography>
+      </Box>
 
       <Box className={classes.panelBox}>
         <Box className={clsx(classes.panel)}>

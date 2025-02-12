@@ -11,6 +11,14 @@ const styles = makeStyles()((theme: any) => ({
     boxSizing: "border-box",
     color: "white",
     fontFamily: "philosopher",
+
+    "& *": {
+      fontFamily: "philosopher",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      padding: "16px 8px",
+    },
   },
 
   container: {
@@ -19,6 +27,28 @@ const styles = makeStyles()((theme: any) => ({
     minWidth: 1400,
     borderRadius: 40,
     padding: 20,
+
+    [theme.breakpoints.down("xl")]: {
+      maxWidth: 1600,
+      minWidth: 900,
+    },
+
+    [theme.breakpoints.down("lg")]: {
+      maxWidth: 900,
+      minWidth: 850,
+    },
+
+    [theme.breakpoints.down("md")]: {
+      maxWidth: 500,
+      minWidth: "auto",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "none",
+      borderRadius: 16,
+      margin: "0 8px",
+      padding: 8,
+    },
   },
 
   innerContainer: {
@@ -26,6 +56,10 @@ const styles = makeStyles()((theme: any) => ({
     borderRadius: 24,
     display: "flex",
     height: "100%",
+
+    [theme.breakpoints.down("sm")]: {
+      borderRadius: 12,
+    },
   },
 
   leftPanel: {
@@ -35,6 +69,12 @@ const styles = makeStyles()((theme: any) => ({
     borderBottomLeftRadius: 32,
     display: "flex",
     flexDirection: "column",
+
+    [theme.breakpoints.down("sm")]: {
+      width: 40,
+      borderTopLeftRadius: 12,
+      borderBottomLeftRadius: 12,
+    },
   },
 
   logoPart: {
@@ -96,6 +136,10 @@ const styles = makeStyles()((theme: any) => ({
     flexDirection: "column",
     width: "100%",
     padding: "0px 24px",
+
+    [theme.breakpoints.down("sm")]: {
+      padding: "0px 8px",
+    },
   },
 
   topBar: {
@@ -104,6 +148,10 @@ const styles = makeStyles()((theme: any) => ({
     display: "flex",
     justifyContent: "right",
     alignItems: "center",
+
+    [theme.breakpoints.down("lg")]: {
+      height: 80,
+    },
   },
 
   topBarRightPanel: {},
@@ -120,14 +168,30 @@ const styles = makeStyles()((theme: any) => ({
     justifyContent: "center",
     textTransform: "none",
     fontSize: "17px",
-    fontFamily: "philosopher",
+
+    [theme.breakpoints.down("xl")]: {
+      height: 40,
+      fontSize: 15,
+      minWidth: 180,
+    },
+
+    [theme.breakpoints.down("lg")]: {
+      height: 32,
+      minWidth: 140,
+      fontSize: 12,
+    },
   },
 
   layout: {
     height: "100%",
-    padding: "8px 16px",
+    // padding: "8px 16px",
     overflowY: "auto",
-    margin: "16px 0",
+    // margin: "16px 0",
+
+    [theme.breakpoints.down("sm")]: {
+      margin: "0 8px",
+      // padding: "8px",
+    },
   },
 }));
 

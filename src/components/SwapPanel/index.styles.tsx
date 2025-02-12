@@ -3,6 +3,10 @@ import { makeStyles } from "tss-react/mui";
 const styles = makeStyles()((theme: any) => ({
   body: {
     fontSize: 24,
+
+    [theme.breakpoints.down("lg")]: {
+      fontSize: 17,
+    },
   },
 
   titlePart: {
@@ -42,6 +46,10 @@ const styles = makeStyles()((theme: any) => ({
     display: "flex",
     gap: 8,
     flexDirection: "column",
+
+    [theme.breakpoints.down("sm")]: {
+      marginTop: 20,
+    },
   },
 
   inputTitle: {
@@ -61,7 +69,6 @@ const styles = makeStyles()((theme: any) => ({
     cursor: "pointer",
     minWidth: 240,
     height: 50,
-    fontFamily: "philosopher",
     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
     transition: "transform 0.2s, box-shadow 0.2s",
     textTransform: "none",
@@ -73,6 +80,12 @@ const styles = makeStyles()((theme: any) => ({
 
     "&:active": {
       boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 17,
+      marginTop: 24,
+      minWidth: 200,
     },
   },
 }));
