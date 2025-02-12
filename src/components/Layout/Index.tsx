@@ -11,6 +11,7 @@ interface LayoutProps {
 
 const LayoutIndex: React.FC<LayoutProps> = ({ children }) => {
   const { classes } = useStyles();
+
   return (
     <Box className={classes.body}>
       <Box className={classes.container}>
