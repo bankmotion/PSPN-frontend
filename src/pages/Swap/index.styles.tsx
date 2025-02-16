@@ -32,11 +32,10 @@ const styles = makeStyles()((theme: any) => ({
     marginBottom: "0.5rem",
     display: "block",
     width: 500,
-    height: 600,
+    height: 800,
 
     [theme.breakpoints.down("sm")]: {
       width: 400,
-      height: 600,
     },
   },
 }));
