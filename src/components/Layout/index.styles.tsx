@@ -138,7 +138,7 @@ const styles = makeStyles()((theme: any) => ({
     padding: "0px 24px",
 
     [theme.breakpoints.down("sm")]: {
-      padding: "0px 8px",
+      padding: 0,
     },
   },
 
@@ -161,24 +161,29 @@ const styles = makeStyles()((theme: any) => ({
     border: "3px solid #292a34",
     color: "#666873",
     borderRadius: 10,
-    height: 48,
-    minWidth: 200,
+    height: 60,
+    minWidth: 220,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     textTransform: "none",
     fontSize: "17px",
+    gap: 8,
 
     [theme.breakpoints.down("xl")]: {
-      height: 40,
+      height: 48,
       fontSize: 15,
       minWidth: 180,
     },
 
     [theme.breakpoints.down("lg")]: {
-      height: 32,
+      height: 40,
       minWidth: 140,
       fontSize: 12,
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      marginRight: 4,
     },
   },
 
@@ -189,7 +194,7 @@ const styles = makeStyles()((theme: any) => ({
     // margin: "16px 0",
 
     [theme.breakpoints.down("sm")]: {
-      margin: "0 8px",
+      margin: 0,
       // padding: "8px",
     },
   },

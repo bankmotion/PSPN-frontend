@@ -129,6 +129,8 @@ const styles = makeStyles()((theme: any) => ({
     fontSize: 32,
     fontWeight: "bold",
     marginLeft: 16,
+    display: "flex",
+    gap: 8,
 
     "& span": {
       color: "#666873",

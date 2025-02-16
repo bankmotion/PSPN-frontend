@@ -1,8 +1,11 @@
 import { Box, Button } from "@mui/material";
+import isMobile from "is-mobile";
 
 import useStyles from "./index.styles";
 import useWallet from "../../hook/useWallet";
 import { getShortAddress } from "../../utils";
+
+import Blockies from "../Blockies/Blockies";
 
 const TopBar = () => {
   const { classes } = useStyles();
@@ -21,6 +24,9 @@ const TopBar = () => {
           }
         >
           {isConnected ? getShortAddress(account) : "Connect Wallet"}
+          {isConnected && (
+            <Blockies address={account} width={isMobile() ? 32 : 42} />
+          )}
         </Button>
       </Box>
     </Box>

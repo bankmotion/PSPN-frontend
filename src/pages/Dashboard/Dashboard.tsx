@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button, duration } from "@mui/material";
 import SavingsIcon from "@mui/icons-material/Savings";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
@@ -7,21 +7,45 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import useStyles from "./index.styles";
 import clsx from "clsx";
 import { formatNumberWithCommas } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { getTokenBalanceByUser, setTokenBalance } from "../../redux/userSlice";
+import { AppDispatch, RootState } from "../../redux/store";
+import useWallet from "../../hook/useWallet";
+import { useSpring, animated } from "react-spring";
 
 const Dashboard: React.FC = () => {
   const { classes } = useStyles();
+  const dispatch: AppDispatch = useDispatch();
+
   const [expectedYeildAmount, setExpectedYieldAmount] = useState(56312);
-  const [grwoRate, setGrowRate] = useState(3);
+  const [growRate, setGrowRate] = useState(3);
+
+  const { account } = useWallet();
+  const { myTokenBalance } = useSelector((state: RootState) => state.user);
+
+  const balanceProps = useSpring({
+    number: myTokenBalance,
+    from: { number: 0 },
+    config: { duration: 2000 },
+  });
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setExpectedYieldAmount((amount) => amount + grwoRate);
+      setExpectedYieldAmount((amount) => amount + growRate);
     }, 100);
 
     return () => {
       clearInterval(interval);
     };
-  }, [grwoRate]);
+  }, [growRate]);
+
+  useEffect(() => {
+    if (account) {
+      dispatch(getTokenBalanceByUser({ account }));
+    } else {
+      dispatch(setTokenBalance(0));
+    }
+  }, [account, dispatch]);
 
   return (
     <Box className={classes.body}>
@@ -37,7 +61,13 @@ const Dashboard: React.FC = () => {
             Total Holdings
           </Box>
           <Box className={classes.valuePart}>
-            2,312 <Box component={"span"}>PSPN</Box>
+            <animated.div>
+              {balanceProps.number.interpolate((n) =>
+                formatNumberWithCommas(Math.floor(n))
+              )}
+            </animated.div>
+            {/* {formatNumberWithCommas(myTokenBalance)}{" "} */}
+            <Box component={"span"}>PSPN</Box>
           </Box>
         </Box>
 
