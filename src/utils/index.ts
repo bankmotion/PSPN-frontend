@@ -1,7 +1,15 @@
 export const randomPosition = (max: number) => Math.floor(Math.random() * max);
 
 export const formatNumberWithCommas = (number: number) => {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const [integerPart, fractionalPart] = number.toString().split(".");
+
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  const formattedFractional = fractionalPart
+    ? `.${fractionalPart.slice(0, 3)}`
+    : "";
+
+  return formattedInteger + formattedFractional;
 };
 
 export const getShortAddress = (address: string) => {

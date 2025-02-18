@@ -18,6 +18,7 @@ import { getTokenBalanceByUser } from "../../redux/userSlice";
 import { formatNumberWithCommas } from "../../utils";
 import InputSelectCoin from "../InputSelectCoin/Index";
 import useStyles from "./index.styles";
+import { toast } from "react-toastify";
 
 export const SwapPanel = () => {
   const { classes } = useStyles();
@@ -94,6 +95,7 @@ export const SwapPanel = () => {
         dispatch(getTokenBalanceByUser({ account }));
         setFromAmount("");
         setToAmount("");
+        toast.success("Swapped successfully!");
       });
   };
 

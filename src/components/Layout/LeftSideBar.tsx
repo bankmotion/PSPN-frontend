@@ -1,11 +1,11 @@
-import { Box, ListItemIcon, Popover } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { Box, Divider, ListItemIcon, Popover } from "@mui/material";
 import { gsap } from "gsap";
+import { useEffect, useRef, useState } from "react";
 
-import useStyles from "./index.styles";
-import { MenuItems } from "../../constants/layout";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
+import { MenuItems } from "../../constants/layout";
+import useStyles from "./index.styles";
 
 const LeftSideBar = () => {
   const { classes } = useStyles();
@@ -87,22 +87,6 @@ const LeftSideBar = () => {
           </Box>
         ))}
       </Box>
-
-      <Popover
-        open={Boolean(anchorEl)}
-        anchorEl={anchorEl}
-        onClose={handleLeave}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-      >
-        123
-      </Popover>
     </Box>
   );
 };
