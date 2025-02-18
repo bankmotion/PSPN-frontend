@@ -96,10 +96,10 @@ const MobileSideBar = ({
 
       <Box className={classes.menuGroup}>
         <Box className={classes.menuDetail}>
-          {formatNumberWithCommas(myTokenBalance)} PSPN
+          {formatNumberWithCommas(myTokenBalance, 0)} PSPN
         </Box>
         <Box className={classes.menuDetail}>
-          {formatNumberWithCommas(myUFCTokenBalance)} UFC
+          {formatNumberWithCommas(myUFCTokenBalance, 0)} UFC
         </Box>
       </Box>
     </Drawer>

@@ -14,6 +14,7 @@ import {
   getYieldInfo,
   getYieldRate,
   handleClaimYield,
+  initYieldInfo,
   setTokenBalance,
 } from "../../redux/userSlice";
 import { formatNumberWithCommas } from "../../utils";
@@ -72,6 +73,7 @@ const Dashboard: React.FC = () => {
       dispatch(getYieldRate());
     } else {
       dispatch(setTokenBalance(0));
+      dispatch(initYieldInfo());
     }
   }, [account, dispatch]);
 

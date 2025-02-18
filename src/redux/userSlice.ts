@@ -53,7 +53,6 @@ export const getYieldInfo = createAsyncThunk(
   "user/getDailyYieldInfo",
   async ({ account }: { account: string }) => {
     const info = await getUserYieldInfo(account);
-    console.log({info})
     return info;
   }
 );
@@ -77,6 +76,14 @@ export const userSlice = createSlice({
     setTokenBalance: (state, { payload }) => {
       state.myTokenBalance = payload;
       state.myUFCTokenBalance = payload;
+    },
+
+    initYieldInfo: (state) => {
+      state.yieldInfo = {
+        yieldToClaim: 0,
+        totalClaimed: 0,
+        lastClaimTimestamp: 0,
+      };
     },
   },
   extraReducers: (builder) => {
@@ -116,5 +123,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setTokenBalance } = userSlice.actions;
+export const { setTokenBalance, initYieldInfo } = userSlice.actions;
 export default userSlice.reducer;
