@@ -3,9 +3,18 @@ import { makeStyles } from "tss-react/mui";
 const styles = makeStyles()((theme: any) => ({
   body: {
     fontSize: 24,
+    backgroundColor: "#151823",
+    padding: "32px 32px",
+    borderRadius: 16,
+    maxHeight: 500,
+    marginTop: 72,
 
     [theme.breakpoints.down("lg")]: {
       fontSize: 17,
+    },
+
+    [theme.breakpoints.down("md")]: {
+      marginTop: 0,
     },
   },
 

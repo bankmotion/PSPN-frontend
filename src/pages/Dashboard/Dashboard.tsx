@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Typography, Box, Button, duration } from "@mui/material";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import SavingsIcon from "@mui/icons-material/Savings";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import { Box, Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
 
-import useStyles from "./index.styles";
 import clsx from "clsx";
-import { formatNumberWithCommas } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
-import { getTokenBalanceByUser, setTokenBalance } from "../../redux/userSlice";
-import { AppDispatch, RootState } from "../../redux/store";
+import { animated, useSpring } from "react-spring";
 import useWallet from "../../hook/useWallet";
-import { useSpring, animated } from "react-spring";
+import { AppDispatch, RootState } from "../../redux/store";
+import { getTokenBalanceByUser, setTokenBalance } from "../../redux/userSlice";
+import { formatNumberWithCommas } from "../../utils";
+import useStyles from "./index.styles";
 
 const Dashboard: React.FC = () => {
   const { classes } = useStyles();
@@ -21,10 +21,17 @@ const Dashboard: React.FC = () => {
   const [growRate, setGrowRate] = useState(3);
 
   const { account } = useWallet();
-  const { myTokenBalance } = useSelector((state: RootState) => state.user);
+  const { myTokenBalance, myUFCTokenBalance } = useSelector(
+    (state: RootState) => state.user
+  );
 
   const balanceProps = useSpring({
     number: myTokenBalance,
+    from: { number: 0 },
+    config: { duration: 2000 },
+  });
+  const ufcBalanceProps = useSpring({
+    number: myUFCTokenBalance,
     from: { number: 0 },
     config: { duration: 2000 },
   });
@@ -68,6 +75,15 @@ const Dashboard: React.FC = () => {
             </animated.div>
             {/* {formatNumberWithCommas(myTokenBalance)}{" "} */}
             <Box component={"span"}>PSPN</Box>
+          </Box>
+          <Box className={classes.valuePart}>
+            <animated.div>
+              {ufcBalanceProps.number.interpolate((n) =>
+                formatNumberWithCommas(Math.floor(n))
+              )}
+            </animated.div>
+            {/* {formatNumberWithCommas(myTokenBalance)}{" "} */}
+            <Box component={"span"}>UFC</Box>
           </Box>
         </Box>
 

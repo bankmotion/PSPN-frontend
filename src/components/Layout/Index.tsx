@@ -8,6 +8,9 @@ import useWallet from "../../hook/useWallet";
 import Web3 from "web3";
 import { ChainConfig } from "../../config/config";
 import { switchNetwork } from "../../helper/network";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { getTokenBalanceByUser, setTokenBalance } from "../../redux/userSlice";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,7 +18,8 @@ interface LayoutProps {
 
 const LayoutIndex: React.FC<LayoutProps> = ({ children }) => {
   const { classes } = useStyles();
-  const { wallet, disconnectWallet, connectWallet } = useWallet();
+  const { wallet, disconnectWallet, connectWallet, account } = useWallet();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (wallet) {
@@ -36,6 +40,14 @@ const LayoutIndex: React.FC<LayoutProps> = ({ children }) => {
       checkNetwork();
     }
   }, [wallet, disconnectWallet, connectWallet]);
+
+  useEffect(() => {
+    if (account) {
+      dispatch(getTokenBalanceByUser({ account }));
+    } else {
+      dispatch(setTokenBalance(0));
+    }
+  }, [account, dispatch]);
 
   return (
     <Box className={classes.body}>

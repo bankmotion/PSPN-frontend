@@ -8,6 +8,7 @@ interface UserState {
 
   loadingMyTokenBalance: boolean;
   myTokenBalance: number;
+  myUFCTokenBalance: number;
 }
 
 const initialState: UserState = {
@@ -16,14 +17,15 @@ const initialState: UserState = {
 
   loadingMyTokenBalance: false,
   myTokenBalance: 0,
+  myUFCTokenBalance: 0,
 };
 
 export const getTokenBalanceByUser = createAsyncThunk(
   "user/getTokenBalanceByUser",
   async ({ account }: { account: string }) => {
-    const data = await getTokenBalance(ContractConfig.TokenAddress, account);
-    console.log(data);
-    return data;
+    const token = await getTokenBalance(ContractConfig.TokenAddress, account);
+    const ufc = await getTokenBalance(ContractConfig.UFCAddress, account);
+    return { token, ufc };
   }
 );
 
@@ -33,6 +35,7 @@ export const userSlice = createSlice({
   reducers: {
     setTokenBalance: (state, { payload }) => {
       state.myTokenBalance = payload;
+      state.myUFCTokenBalance = payload;
     },
   },
   extraReducers: (builder) => {
@@ -41,7 +44,8 @@ export const userSlice = createSlice({
     });
     builder.addCase(getTokenBalanceByUser.fulfilled, (state, { payload }) => {
       state.loadingMyTokenBalance = false;
-      state.myTokenBalance = payload;
+      state.myTokenBalance = payload.token;
+      state.myUFCTokenBalance = payload.ufc;
     });
     builder.addCase(getTokenBalanceByUser.rejected, (state) => {
       state.loadingMyTokenBalance = false;

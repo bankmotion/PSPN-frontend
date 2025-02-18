@@ -12,11 +12,18 @@ const styles = makeStyles()((theme: any) => ({
 
   swapPanel: {
     minWidth: 400,
+    display: "flex",
+    gap: 40,
 
     [theme.breakpoints.down("lg")]: {
       minWidth: 360,
       borderRadius: 12,
       padding: "16px",
+    },
+
+    [theme.breakpoints.down("md")]: {
+      flexDirection: "column",
+      gap: 0,
     },
 
     [theme.breakpoints.down("sm")]: {
@@ -32,7 +39,7 @@ const styles = makeStyles()((theme: any) => ({
     marginBottom: "0.5rem",
     display: "block",
     width: 500,
-    height: 800,
+    height: 600,
 
     [theme.breakpoints.down("sm")]: {
       width: 400,

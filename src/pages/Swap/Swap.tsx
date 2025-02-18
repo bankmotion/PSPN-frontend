@@ -20,7 +20,7 @@ const Swap = () => {
             title="piteas"
             className={classes.swapIframe}
           />
-          {/* <SwapPanel /> */}
+          <SwapPanel />
         </Box>
       </Box>
     </Box>

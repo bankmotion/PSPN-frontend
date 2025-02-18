@@ -62,7 +62,7 @@ const styles = makeStyles()((theme: any) => ({
     padding: "24px 16px",
     display: "flex",
     flexDirection: "column",
-    gap: 24,
+    gap: 12,
     position: "relative",
 
     [theme.breakpoints.down("xl")]: {
@@ -74,13 +74,13 @@ const styles = makeStyles()((theme: any) => ({
     [theme.breakpoints.down("lg")]: {
       maxWidth: 250,
       minWidth: 200,
-      height: 80,
+      height: 100,
       padding: "8px 8px",
     },
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       gap: 12,
-      height: 70,
+      height: "auto",
     },
   },
 

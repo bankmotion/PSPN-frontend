@@ -36,10 +36,10 @@ const styles = makeStyles()((theme: any) => ({
     [theme.breakpoints.down("lg")]: {
       maxWidth: 900,
       minWidth: 850,
+      width: "100%",
     },
 
     [theme.breakpoints.down("md")]: {
-      maxWidth: 500,
       minWidth: "auto",
     },
 
@@ -154,7 +154,10 @@ const styles = makeStyles()((theme: any) => ({
     },
   },
 
-  topBarRightPanel: {},
+  topBarRightPanel: {
+    display: "flex",
+    gap: 4,
+  },
 
   connectButton: {
     backgroundColor: "#171822",
@@ -197,6 +200,10 @@ const styles = makeStyles()((theme: any) => ({
       margin: 0,
       // padding: "8px",
     },
+  },
+
+  balanceBut: {
+    minWidth: 120,
   },
 }));
 
