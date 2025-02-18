@@ -6,7 +6,6 @@ import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { animated, useSpring } from "react-spring";
 import { toast } from "react-toastify";
 import useWallet from "../../hook/useWallet";
 import { AppDispatch, RootState } from "../../redux/store";
@@ -35,22 +34,6 @@ const Dashboard: React.FC = () => {
     loadingClaimYield,
   } = useSelector((state: RootState) => state.user);
 
-  const balanceProps = useSpring({
-    number: myTokenBalance,
-    from: { number: 0 },
-    config: { duration: 2000 },
-  });
-  const ufcBalanceProps = useSpring({
-    number: myUFCTokenBalance,
-    from: { number: 0 },
-    config: { duration: 2000 },
-  });
-  const totalEarnedProps = useSpring({
-    number: yieldInfo.totalClaimed,
-    from: { number: 0 },
-    config: { duration: 2000 },
-  });
-
   const handleClaimYields = () => {
     dispatch(handleClaimYield({ account }))
       .unwrap()
@@ -61,8 +44,6 @@ const Dashboard: React.FC = () => {
         toast.success("Claimed yield successfully!");
       });
   };
-
-  // console.log(yieldInfo);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -111,21 +92,11 @@ const Dashboard: React.FC = () => {
             Total Holdings
           </Box>
           <Box className={classes.valuePart}>
-            <animated.div>
-              {balanceProps.number.interpolate((n) =>
-                formatNumberWithCommas(Math.floor(n))
-              )}
-            </animated.div>
-            {/* {formatNumberWithCommas(myTokenBalance)}{" "} */}
+            {formatNumberWithCommas(myTokenBalance, 0)}{" "}
             <Box component={"span"}>PSPN</Box>
           </Box>
           <Box className={classes.valuePart}>
-            <animated.div>
-              {ufcBalanceProps.number.interpolate((n) =>
-                formatNumberWithCommas(Math.floor(n))
-              )}
-            </animated.div>
-            {/* {formatNumberWithCommas(myTokenBalance)}{" "} */}
+            {formatNumberWithCommas(myUFCTokenBalance, 0)}{" "}
             <Box component={"span"}>UFC</Box>
           </Box>
         </Box>
@@ -147,11 +118,7 @@ const Dashboard: React.FC = () => {
             Total Yield Earned
           </Box>
           <Box className={classes.valuePart}>
-            <animated.div>
-              {totalEarnedProps.number.interpolate((n) =>
-                formatNumberWithCommas(n)
-              )}
-            </animated.div>
+            {formatNumberWithCommas(yieldInfo.totalClaimed)}
             <Box component={"span"}>PSPN</Box>
           </Box>
         </Box>

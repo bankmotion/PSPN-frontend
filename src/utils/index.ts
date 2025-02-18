@@ -1,12 +1,12 @@
 export const randomPosition = (max: number) => Math.floor(Math.random() * max);
 
-export const formatNumberWithCommas = (number: number) => {
+export const formatNumberWithCommas = (number: number, floor: number = 3) => {
   const [integerPart, fractionalPart] = number.toString().split(".");
 
   const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
   const formattedFractional = fractionalPart
-    ? `.${fractionalPart.slice(0, 3)}`
+    ? `${floor === 0 ? "" : "."}${fractionalPart.slice(0, floor)}`
     : "";
 
   return formattedInteger + formattedFractional;
