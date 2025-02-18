@@ -29,7 +29,8 @@ const styles = makeStyles()((theme: any) => ({
     [theme.breakpoints.down("sm")]: {
       minWidth: "auto",
       // overflowX: "auto",
-      maxWidth: 220,
+      maxWidth: 280,
+      padding: "0 16px",
     },
   },
 
@@ -43,6 +44,8 @@ const styles = makeStyles()((theme: any) => ({
 
     [theme.breakpoints.down("sm")]: {
       width: 400,
+      height: "auto",
+      minHeight: 380,
     },
   },
 }));

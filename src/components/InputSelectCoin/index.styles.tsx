@@ -5,6 +5,7 @@ const styles = makeStyles()((theme: any) => ({
     color: "#fff",
     fontSize: "18px",
     background: "none",
+    minWidth: 120,
 
     "& .MuiSelect-select": {
       display: "flex",

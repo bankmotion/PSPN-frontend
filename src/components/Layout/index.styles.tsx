@@ -204,6 +204,12 @@ const styles = makeStyles()((theme: any) => ({
 
   balanceBut: {
     minWidth: 120,
+
+    [theme.breakpoints.down("sm")]: {
+      minWidth: 80,
+      fontSize: 10,
+      padding: 0,
+    },
   },
 }));
 

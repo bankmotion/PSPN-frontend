@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getTokenBalance } from "../helper/contract";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ContractConfig } from "../config/config";
+import { getTokenBalance } from "../helper/contract";
 
 interface UserState {
   user: string;

@@ -3,17 +3,31 @@ import {
   InputAdornment,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material";
+import { useId } from "react";
 
 import useStyles from "./index.styles";
+import { SwapTokens } from "../../config/config";
 
 interface InputSelectCoinProps {
-  handleChange: () => void;
+  handleChange: (e: SelectChangeEvent<number>) => void;
+  selectedToken: number;
+  handleChangeAmount: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  amount: string;
+  inputEnabled: boolean;
 }
 
-const InputSelectCoin = ({ handleChange }: InputSelectCoinProps) => {
+const InputSelectCoin = ({
+  handleChange,
+  selectedToken,
+  handleChangeAmount,
+  amount,
+  inputEnabled
+}: InputSelectCoinProps) => {
   const { classes } = useStyles();
+  const inputId = useId();
 
   return (
     <Box className={classes.inputField}>
@@ -32,22 +46,28 @@ const InputSelectCoin = ({ handleChange }: InputSelectCoinProps) => {
             fontSize: 18,
           },
         }}
+        onChange={handleChangeAmount}
+        value={amount}
+        key={inputId}
+        disabled={!inputEnabled}
       />
       <Select
-        value={0}
+        value={selectedToken}
         onChange={handleChange}
         variant="standard"
         disableUnderline
         className={classes.select}
       >
-        <MenuItem value="0" className={classes.selectMenuItem}>
-          <Box
-            component={"img"}
-            src="/assets/tokens/pls.png"
-            className={classes.logo}
-          ></Box>
-          PLS
-        </MenuItem>
+        {SwapTokens.map((swapToken, index) => (
+          <MenuItem value={index} className={classes.selectMenuItem}>
+            <Box
+              component={"img"}
+              src={`/assets/tokens/${swapToken.logo}`}
+              className={classes.logo}
+            ></Box>
+            {swapToken.name}
+          </MenuItem>
+        ))}
       </Select>
     </Box>
   );

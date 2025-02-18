@@ -36,10 +36,15 @@ const styles = makeStyles()((theme: any) => ({
   },
 
   exchangeInfo: {
-    display: "flex",
+    display: "grid",
+    gridTemplateColumns: "3fr 1fr 3fr",
     justifyContent: "space-between",
     marginTop: 32,
     alignItems: "center",
+
+    "&>div": {
+      textAlign: "center",
+    },
 
     "& span": {
       color: "#43465c",
@@ -82,6 +87,8 @@ const styles = makeStyles()((theme: any) => ({
     transition: "transform 0.2s, box-shadow 0.2s",
     textTransform: "none",
     width: "100%",
+    display: "flex",
+    gap: 8,
 
     "&:hover": {
       boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
@@ -96,6 +103,11 @@ const styles = makeStyles()((theme: any) => ({
       marginTop: 24,
       minWidth: 200,
     },
+  },
+
+  loadingIcon: {
+    width: "32px!important",
+    height: "32px!important",
   },
 }));
 

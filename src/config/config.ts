@@ -1,3 +1,5 @@
+import { SwapTokenType } from "../interfaces/SwapTokenType";
+
 export const ChainConfig = {
   chainSymbolFull: "Pulse",
   chainSymbol: "PLS",
@@ -19,3 +21,16 @@ export const ContractConfig = {
   UFCAddress: "0xD22CE8CaD2aD59EF1d9DF4DDED9567F0F9e2B554",
   InternalSwapAddress: "0x06BD70cDB55bAD2b1e5d40af986F6cF0b2154C30",
 };
+
+export const SwapTokens: SwapTokenType[] = [
+  {
+    name: "PSPN",
+    address: ContractConfig.TokenAddress,
+    logo: "pls.png",
+  },
+  {
+    name: "UFC",
+    address: ContractConfig.UFCAddress,
+    logo: "pls.png",
+  },
+];

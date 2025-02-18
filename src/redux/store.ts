@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import userReducer from "./userSlice";
+import swapReducer from "./swapSlice";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    swap: swapReducer,
   },
 });
 
