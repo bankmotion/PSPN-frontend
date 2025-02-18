@@ -1,15 +1,22 @@
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import SavingsIcon from "@mui/icons-material/Savings";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import { Box, Button } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
+import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 
-import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import { animated, useSpring } from "react-spring";
+import { toast } from "react-toastify";
 import useWallet from "../../hook/useWallet";
 import { AppDispatch, RootState } from "../../redux/store";
-import { getTokenBalanceByUser, setTokenBalance } from "../../redux/userSlice";
+import {
+  getTokenBalanceByUser,
+  getYieldInfo,
+  getYieldRate,
+  handleClaimYield,
+  setTokenBalance,
+} from "../../redux/userSlice";
 import { formatNumberWithCommas } from "../../utils";
 import useStyles from "./index.styles";
 
@@ -17,13 +24,16 @@ const Dashboard: React.FC = () => {
   const { classes } = useStyles();
   const dispatch: AppDispatch = useDispatch();
 
-  const [expectedYeildAmount, setExpectedYieldAmount] = useState(56312);
-  const [growRate, setGrowRate] = useState(3);
+  const [expectedYeildAmount, setExpectedYieldAmount] = useState(0);
 
   const { account } = useWallet();
-  const { myTokenBalance, myUFCTokenBalance } = useSelector(
-    (state: RootState) => state.user
-  );
+  const {
+    myTokenBalance,
+    myUFCTokenBalance,
+    yieldInfo,
+    dailyYieldRate,
+    loadingClaimYield,
+  } = useSelector((state: RootState) => state.user);
 
   const balanceProps = useSpring({
     number: myTokenBalance,
@@ -35,24 +45,57 @@ const Dashboard: React.FC = () => {
     from: { number: 0 },
     config: { duration: 2000 },
   });
+  const totalEarnedProps = useSpring({
+    number: yieldInfo.totalClaimed,
+    from: { number: 0 },
+    config: { duration: 2000 },
+  });
+
+  const handleClaimYields = () => {
+    dispatch(handleClaimYield({ account }))
+      .unwrap()
+      .then(() => {
+        dispatch(getTokenBalanceByUser({ account }));
+        dispatch(getYieldInfo({ account }));
+
+        toast.success("Claimed yield successfully!");
+      });
+  };
+
+  // console.log(yieldInfo);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setExpectedYieldAmount((amount) => amount + growRate);
+      const timeElapsed =
+        new Date().getTime() / 1000 - yieldInfo.lastClaimTimestamp;
+
+      const pendingYield =
+        yieldInfo.lastClaimTimestamp === 0
+          ? 0
+          : (myUFCTokenBalance * dailyYieldRate * timeElapsed) /
+            (3600 * 24) /
+            10000;
+
+      setExpectedYieldAmount(pendingYield + yieldInfo.yieldToClaim);
     }, 100);
 
     return () => {
       clearInterval(interval);
     };
-  }, [growRate]);
+  }, [dailyYieldRate, myUFCTokenBalance, yieldInfo]);
 
   useEffect(() => {
     if (account) {
       dispatch(getTokenBalanceByUser({ account }));
+      dispatch(getYieldInfo({ account }));
+      dispatch(getYieldRate());
     } else {
       dispatch(setTokenBalance(0));
     }
   }, [account, dispatch]);
+
+  const claimButtonEnabled =
+    !loadingClaimYield && account && expectedYeildAmount;
 
   return (
     <Box className={classes.body}>
@@ -93,8 +136,8 @@ const Dashboard: React.FC = () => {
             Expected Yield
           </Box>
           <Box className={classes.valuePart}>
-            <Box component={"span"}>$</Box>{" "}
-            {formatNumberWithCommas(expectedYeildAmount)}
+            {formatNumberWithCommas(expectedYeildAmount)}{" "}
+            <Box component={"span"}>PSPN</Box>
           </Box>
         </Box>
 
@@ -104,13 +147,26 @@ const Dashboard: React.FC = () => {
             Total Yield Earned
           </Box>
           <Box className={classes.valuePart}>
-            <Box component={"span"}>$</Box> 2,312
+            <animated.div>
+              {totalEarnedProps.number.interpolate((n) =>
+                formatNumberWithCommas(n)
+              )}
+            </animated.div>
+            <Box component={"span"}>PSPN</Box>
           </Box>
         </Box>
       </Box>
 
-      <Box className={classes.buttonBox}>
-        <Button className={classes.yieldClaimBtn}>Claim Yield</Button>
+      <Box className={classes.buttonBox} onClick={handleClaimYields}>
+        <Button
+          className={classes.yieldClaimBtn}
+          disabled={!claimButtonEnabled}
+        >
+          Claim Yield{" "}
+          {loadingClaimYield && (
+            <CircularProgress className={classes.loadingIcon} />
+          )}
+        </Button>
       </Box>
     </Box>
   );

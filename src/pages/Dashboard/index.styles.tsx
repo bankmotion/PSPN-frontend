@@ -161,6 +161,8 @@ const styles = makeStyles()((theme: any) => ({
     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
     transition: "transform 0.2s, box-shadow 0.2s",
     textTransform: "none",
+    display: "flex",
+    gap: 8,
 
     "&:hover": {
       transform: "translateY(-2px)",
@@ -183,6 +185,11 @@ const styles = makeStyles()((theme: any) => ({
       minWidth: 200,
       height: 40,
     },
+  },
+
+  loadingIcon: {
+    width: "32px!important",
+    height: "32px!important",
   },
 }));
 
