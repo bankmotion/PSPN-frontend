@@ -39,7 +39,7 @@ const TopBar = () => {
         >
           {isConnected ? getShortAddress(account) : "Connect Wallet"}
           {isConnected && (
-            <Blockies address={account} width={isMobile() ? 32 : 42} />
+            <Blockies address={account} width={isMobile() ? 24 : 42} />
           )}
         </Button>
       </Box>

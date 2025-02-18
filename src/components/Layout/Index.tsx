@@ -1,5 +1,6 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React, { ReactNode, useEffect } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import useStyles from "./index.styles";
 import LeftSideBar from "./LeftSideBar";
@@ -53,6 +54,9 @@ const LayoutIndex: React.FC<LayoutProps> = ({ children }) => {
     <Box className={classes.body}>
       <Box className={classes.container}>
         <Box className={classes.innerContainer}>
+          <Button className={classes.menuIcon}>
+            <MenuIcon />
+          </Button>
           <LeftSideBar />
           <Box className={classes.rightPanel}>
             <TopBar />

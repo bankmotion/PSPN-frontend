@@ -74,6 +74,7 @@ const styles = makeStyles()((theme: any) => ({
       width: 40,
       borderTopLeftRadius: 12,
       borderBottomLeftRadius: 12,
+      display: "none",
     },
   },
 
@@ -209,6 +210,27 @@ const styles = makeStyles()((theme: any) => ({
       minWidth: 80,
       fontSize: 10,
       padding: 0,
+      display: "none",
+    },
+  },
+
+  menuIcon: {
+    display: "none",
+
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
+      position: "fixed",
+      left: 24,
+      top: 40,
+      color: "white",
+      fontSize: 24,
+      minWidth: "auto",
+      borderRadius: "50%",
+      minHeight: "auto",
+      width: 40,
+      height: 40,
+      justifyContent: "center",
+      alignItems: "center",
     },
   },
 }));

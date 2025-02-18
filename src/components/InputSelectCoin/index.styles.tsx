@@ -19,13 +19,14 @@ const styles = makeStyles()((theme: any) => ({
 
     [theme.breakpoints.down("sm")]: {
       fontSize: 14,
+      minWidth: 80,
     },
   },
 
   inputField: {
     display: "flex",
     alignItems: "center",
-    backgroundColor: "#1a1a2e",
+    backgroundColor: "#131a2a",
     border: "1px solid #333",
     borderRadius: "8px",
     padding: "8px 12px",

@@ -14,6 +14,7 @@ const styles = makeStyles()((theme: any) => ({
     minWidth: 400,
     display: "flex",
     gap: 40,
+    marginBottom: 12,
 
     [theme.breakpoints.down("lg")]: {
       minWidth: 360,
@@ -28,9 +29,20 @@ const styles = makeStyles()((theme: any) => ({
 
     [theme.breakpoints.down("sm")]: {
       minWidth: "auto",
-      // overflowX: "auto",
-      maxWidth: 280,
-      padding: "0 16px",
+      padding: "0 8px",
+      gap: 32,
+    },
+  },
+
+  iframeBox: {
+    width: 500,
+    height: 800,
+
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+      height: 380,
+      overflowY: "auto",
+      paddingRight: 4,
     },
   },
 
@@ -40,12 +52,11 @@ const styles = makeStyles()((theme: any) => ({
     marginBottom: "0.5rem",
     display: "block",
     width: 500,
-    height: 600,
+    height: 800,
 
     [theme.breakpoints.down("sm")]: {
-      width: 400,
-      height: "auto",
-      minHeight: 380,
+      width: "100%",
+      height: 600,
     },
   },
 }));

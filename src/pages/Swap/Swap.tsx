@@ -14,12 +14,14 @@ const Swap = () => {
     <Box>
       <Box className={classes.body}>
         <Box className={classes.swapPanel}>
-          <Box
-            component={"iframe"}
-            src={url}
-            title="piteas"
-            className={classes.swapIframe}
-          />
+          <Box className={classes.iframeBox}>
+            <Box
+              component={"iframe"}
+              src={url}
+              title="piteas"
+              className={classes.swapIframe}
+            />
+          </Box>
           <SwapPanel />
         </Box>
       </Box>

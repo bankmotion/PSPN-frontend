@@ -3,8 +3,8 @@ import { makeStyles } from "tss-react/mui";
 const styles = makeStyles()((theme: any) => ({
   body: {
     fontSize: 24,
-    backgroundColor: "#151823",
-    padding: "32px 32px",
+    backgroundColor: "#0d111c",
+    padding: "16px",
     borderRadius: 16,
     maxHeight: 500,
     marginTop: 72,
@@ -23,15 +23,28 @@ const styles = makeStyles()((theme: any) => ({
     justifyContent: "space-between",
     alignItems: "center",
 
+    "& h5": {
+      fontFamily: "philosopher",
+    },
+
     "& svg": {
       color: "#a6a9b3",
       cursor: "pointer",
       transition: "0.3s",
+      fontSize: 20,
 
       "&:hover": {
         color: "white",
         transition: "0.3s",
       },
+    },
+  },
+
+  title: {
+    fontSize: "17px",
+
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 12,
     },
   },
 
@@ -102,6 +115,7 @@ const styles = makeStyles()((theme: any) => ({
       fontSize: 17,
       marginTop: 24,
       minWidth: 200,
+      height: 40,
     },
   },
 
