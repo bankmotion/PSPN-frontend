@@ -145,24 +145,28 @@ const styles = makeStyles()((theme: any) => ({
     },
   },
 
-  buttonBox: {},
+  buttonBox: {
+    display: "flex",
+    justifyContent: "right",
+    alignItems: "end",
+  },
 
   yieldClaimBtn: {
     background: "linear-gradient(90deg, #9b51e0, #56ccf2)",
     color: "white",
     border: "none",
     borderRadius: 12,
-    padding: "8px 16px",
-    fontSize: "22px",
+    fontSize: "17px",
     fontWeight: 500,
     cursor: "pointer",
-    minWidth: 240,
-    height: 60,
+    minWidth: 120,
+    height: 40,
     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
     transition: "transform 0.2s, box-shadow 0.2s",
     textTransform: "none",
     display: "flex",
     gap: 8,
+    width: 160,
 
     "&:hover": {
       transform: "translateY(-2px)",
@@ -176,20 +180,29 @@ const styles = makeStyles()((theme: any) => ({
 
     [theme.breakpoints.down("xl")]: {
       fontSize: 18,
-      minWidth: 220,
-      height: 48,
+      minWidth: 100,
+      height: 36,
     },
 
     [theme.breakpoints.down("lg")]: {
       fontSize: 15,
-      minWidth: 200,
-      height: 40,
+      minWidth: 100,
+      height: 32,
     },
   },
 
   loadingIcon: {
     width: "32px!important",
     height: "32px!important",
+  },
+
+  dailyYield: {
+    display: "flex",
+    fontSize: 28,
+
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 22,
+    },
   },
 }));
 

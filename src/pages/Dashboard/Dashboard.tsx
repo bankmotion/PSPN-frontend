@@ -35,6 +35,8 @@ const Dashboard: React.FC = () => {
     loadingClaimYield,
   } = useSelector((state: RootState) => state.user);
 
+  console.log({ dailyYieldRate });
+
   const handleClaimYields = () => {
     dispatch(handleClaimYield({ account }))
       .unwrap()
@@ -112,6 +114,18 @@ const Dashboard: React.FC = () => {
             {formatNumberWithCommas(expectedYeildAmount)}{" "}
             <Box component={"span"}>PSPN</Box>
           </Box>
+          <Box className={classes.buttonBox}>
+            <Button
+              className={classes.yieldClaimBtn}
+              disabled={!claimButtonEnabled}
+              onClick={handleClaimYields}
+            >
+              Claim Yield{" "}
+              {loadingClaimYield && (
+                <CircularProgress className={classes.loadingIcon} />
+              )}
+            </Button>
+          </Box>
         </Box>
 
         <Box className={clsx(classes.panel)}>
@@ -126,16 +140,14 @@ const Dashboard: React.FC = () => {
         </Box>
       </Box>
 
-      <Box className={classes.buttonBox} onClick={handleClaimYields}>
-        <Button
-          className={classes.yieldClaimBtn}
-          disabled={!claimButtonEnabled}
-        >
-          Claim Yield{" "}
-          {loadingClaimYield && (
-            <CircularProgress className={classes.loadingIcon} />
-          )}
-        </Button>
+      <Box className={classes.dailyYield}>
+        Daily yield {Number((dailyYieldRate / 100).toFixed(2))}
+        %(
+        {formatNumberWithCommas(
+          (myUFCTokenBalance * dailyYieldRate) / 10000,
+          2
+        )}{" "}
+        PSPN)
       </Box>
     </Box>
   );
