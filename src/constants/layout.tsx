@@ -1,17 +1,17 @@
-import HomeIcon from "@mui/icons-material/Home";
-import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
-
 export const MenuItems = [
   {
-    id: 1,
-    icon: <HomeIcon />,
-    label: "Dashboard",
-    href: "/dashboard",
+    icon: "home",
+    label: "Home",
+    href: ["/home", "/"],
   },
   {
-    id: 2,
-    icon: <SwapHorizontalCircleIcon />,
+    icon: "swap",
     label: "Swap",
-    href: "/swap",
+    href: ["/swap"],
+  },
+  {
+    icon: "ufc",
+    label: "UFC",
+    href: ["/ufc"],
   },
 ];

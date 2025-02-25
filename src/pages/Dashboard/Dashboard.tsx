@@ -84,7 +84,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box className={classes.body}>
-      <Box className={classes.title}>
+      {/* <Box className={classes.title}>
         Track your holdings, monitor your earnings, and watch your yield grow in
         real-time.
       </Box>
@@ -148,7 +148,7 @@ const Dashboard: React.FC = () => {
           2
         )}{" "}
         PSPN)
-      </Box>
+      </Box> */}
     </Box>
   );
 };

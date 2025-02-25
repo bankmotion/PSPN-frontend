@@ -25,3 +25,40 @@ export const formatNumber = (num: number) => {
     return num.toString();
   }
 };
+
+export const remainTime = (time: number) => {
+  if (time < 0) {
+    return "00:00:00";
+  }
+  let timeInt = Math.floor(time);
+  const days = Math.floor(timeInt / (24 * 3600));
+  timeInt = timeInt % (24 * 3600);
+  const hoursStr = timerFormatStr(Math.floor(timeInt / 3600));
+  timeInt = timeInt % 3600;
+  const minsStr = timerFormatStr(Math.floor(timeInt / 60));
+  timeInt = timeInt % 60;
+  const secsStr = timerFormatStr(timeInt % 60);
+
+  return days === 0
+    ? `${hoursStr}:${minsStr}:${secsStr}`
+    : `${days} days, ${hoursStr} : ${minsStr} : ${secsStr}`;
+};
+
+export const timerFormatStr = (digit: number) => {
+  if (digit === 0) return "00";
+  return digit < 10 ? `0${digit}` : digit;
+};
+
+export const getPSTTimeFromTimestamp = (timestamp: number) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "America/Los_Angeles", // PST (Pacific Standard Time) zone
+  };
+
+  const date = new Date(timestamp * 1000);
+  const formatter = new Intl.DateTimeFormat("en-US", options);
+  const formattedDate = formatter.format(date);
+  return formattedDate;
+};
