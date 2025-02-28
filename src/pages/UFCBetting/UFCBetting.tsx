@@ -30,7 +30,7 @@ const BettingList = () => {
         {new Array(20).fill(1).map((_, index) => (
           <Box className={classes.listDetail}>
             <Box>{index + 1}</Box>
-            <Box>{getShortAddress(account)}</Box>
+            <Box>{getShortAddress("0x27fF805e7149AEA80C250a287b93124db88DdD5A")}</Box>
             <Box>
               {formatNumberWithCommas(3425323)}{" "}
               <Box component={"span"}>UFC</Box>
