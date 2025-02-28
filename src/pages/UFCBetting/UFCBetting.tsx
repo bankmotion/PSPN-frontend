@@ -1,10 +1,11 @@
 import { Box, Button, TextField } from "@mui/material";
 import useStyles from "./UFCBetting.styles";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { UFCMatches } from "../../constants/ufc";
 import { useEffect, useState } from "react";
 import {
   formatNumberWithCommas,
+  formatTimestamp,
   getPSTTimeFromTimestamp,
   getShortAddress,
 } from "../../utils";
@@ -37,6 +38,14 @@ const BettingList = () => {
               {formatNumberWithCommas(3425323)}{" "}
               <Box component={"img"} src={`/assets/tokens/ufc.png`} />
             </Box>
+            <Box>{formatTimestamp(1738887322)}</Box>
+            <Link to={`https://scan.pulsechain.com`} target={"blank"}>
+              <Box
+                component={"img"}
+                src="/assets/tokens/pls.png"
+                className={classes.linkIcon}
+              />
+            </Link>
           </Box>
         ))}
       </Box>
@@ -170,12 +179,12 @@ const UFCBetting = () => {
           )}
         </Box>
         <Box className={classes.betArea}>
+          <Box component={"img"} src={`/assets/tokens/ufc.png`} />
           <TextField
             value={betAmount}
-            placeholder="Input the bet amount"
+            placeholder="Input the amounts"
             onChange={(e) => setBetAmount(e.target.value)}
           />
-          <Box component={"img"} src={`/assets/tokens/ufc.png`} />
           <Button onClick={handleClickCreateBet}>Create bet</Button>
         </Box>
         <Box

@@ -309,13 +309,12 @@ const styles = makeStyles()((theme: any) => ({
     },
 
     "& input": {
-      maxWidth: "120px",
+      maxWidth: "90px",
       padding: 8,
       color: "white",
       border: "none",
       outline: "none",
       fontSize: 12,
-      textAlign: "right",
     },
 
     "& fieldset": {
@@ -364,8 +363,7 @@ const styles = makeStyles()((theme: any) => ({
     zIndex: 10,
     display: "flex",
     marginTop: 8,
-    gap: 80,
-    justifyContent: "center",
+    justifyContent: "space-around",
     paddingBottom: 24,
 
     [theme.breakpoints.down("sm")]: {
@@ -375,7 +373,7 @@ const styles = makeStyles()((theme: any) => ({
   },
 
   listPanelBody: {
-    minWidth: 400,
+    minWidth: 560,
     backgroundColor: "#16171cbb",
     padding: "18px 24px",
     borderRadius: 4,
@@ -410,9 +408,19 @@ const styles = makeStyles()((theme: any) => ({
     borderBottom: "1px solid #292929",
     padding: "4px 0",
     display: "grid",
-    gridTemplateColumns: "0.5fr 1.5fr 1fr",
+    gridTemplateColumns: "0.5fr 1.5fr 1fr 1.5fr 0.5fr",
     fontSize: 14,
     alignItems: "center",
+
+    [theme.breakpoints.down("sm")]: {
+      gridTemplateColumns: "0.5fr 1.5fr 1fr 0.5fr",
+    },
+
+    "&>div:nth-of-type(4)": {
+      [theme.breakpoints.down("sm")]: {
+        display: "none",
+      },
+    },
 
     "&>div": {
       display: "flex",
@@ -423,6 +431,16 @@ const styles = makeStyles()((theme: any) => ({
     "& img": {
       width: 20,
     },
+
+    "& a": {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  },
+
+  linkIcon: {
+    borderRadius: "50%",
   },
 }));
 
