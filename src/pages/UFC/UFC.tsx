@@ -9,9 +9,11 @@ import {
 } from "../../utils";
 import { UFCGameType } from "../../interfaces/UFC";
 import isMobile from "is-mobile";
+import { useNavigate } from "react-router-dom";
 
 const UFC = () => {
   const { classes } = useStyles();
+  const navigation = useNavigate();
   const [curTime, setCurTime] = useState(new Date().getTime() / 1000);
 
   useEffect(() => {
@@ -21,9 +23,13 @@ const UFC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleClickPanel = (id: number) => {
+    navigation(`/ufc/${id}`);
+  };
+
   const PanelOnDesktop = ({ match }: { match: UFCGameType }) => {
     return (
-      <Box className={classes.panel}>
+      <Box className={classes.panel} onClick={() => handleClickPanel(match.id)}>
         <Box className={classes.leftImgBox}>
           <Box
             component={"img"}
@@ -93,7 +99,10 @@ const UFC = () => {
 
   const PanelOnMobile = ({ match }: { match: UFCGameType }) => {
     return (
-      <Box className={classes.mobilePanel}>
+      <Box
+        className={classes.mobilePanel}
+        onClick={() => handleClickPanel(match.id)}
+      >
         <Box className={classes.moPanelTop}>
           <Box>{remainTime(match.time - curTime)}</Box>
           <Box className={classes.poolsBox}>

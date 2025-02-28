@@ -55,6 +55,7 @@ const LayoutIndex: React.FC<LayoutProps> = ({ children }) => {
   return (
     <Box className={classes.body}>
       <TopBar />
+      <ToastContainer />
       <main className={classes.layout}>{children}</main>
 
       {/* <MobileSideBar

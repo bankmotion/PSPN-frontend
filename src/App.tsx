@@ -6,6 +6,7 @@ import Layout from "./components/Layout/Index";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Swap from "./pages/Swap/Swap";
 import UFC from "./pages/UFC/UFC";
+import UFCBetting from "./pages/UFCBetting/UFCBetting";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
           <Route path="/swap" element={<Swap />} /> */}
 
           <Route path="/ufc" element={<UFC />} />
+
+          <Route path="/ufc/:id" element={<UFCBetting />} />
         </Routes>
       </Layout>
     </Router>
