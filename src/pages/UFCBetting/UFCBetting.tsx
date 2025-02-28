@@ -23,17 +23,19 @@ const BettingList = () => {
         <Box>14 Players</Box>
         <Box>
           <Box component={"span"}>Total:</Box> {formatNumberWithCommas(3425323)}{" "}
-          <Box component={"span"}>UFC</Box>
+          <Box component={"img"} src={`/assets/tokens/ufc.png`} />
         </Box>
       </Box>
       <Box className={classes.listPanelTable}>
         {new Array(20).fill(1).map((_, index) => (
           <Box className={classes.listDetail}>
             <Box>{index + 1}</Box>
-            <Box>{getShortAddress("0x27fF805e7149AEA80C250a287b93124db88DdD5A")}</Box>
+            <Box>
+              {getShortAddress("0x27fF805e7149AEA80C250a287b93124db88DdD5A")}
+            </Box>
             <Box>
               {formatNumberWithCommas(3425323)}{" "}
-              <Box component={"span"}>UFC</Box>
+              <Box component={"img"} src={`/assets/tokens/ufc.png`} />
             </Box>
           </Box>
         ))}

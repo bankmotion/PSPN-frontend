@@ -390,9 +390,14 @@ const styles = makeStyles()((theme: any) => ({
     display: "flex",
     justifyContent: "space-between",
 
-    "& span": {
-      color: "gray",
-      fontSize: 13,
+    "&>div": {
+      display: "flex",
+      alignItems: "center",
+      gap: 4,
+    },
+
+    "& img": {
+      width: 20,
     },
   },
 
@@ -407,10 +412,16 @@ const styles = makeStyles()((theme: any) => ({
     display: "grid",
     gridTemplateColumns: "0.5fr 1.5fr 1fr",
     fontSize: 14,
+    alignItems: "center",
 
-    "& span": {
-      color: "gray",
-      fontSize: 13,
+    "&>div": {
+      display: "flex",
+      alignItems: "center",
+      gap: 4,
+    },
+
+    "& img": {
+      width: 20,
     },
   },
 }));
