@@ -124,6 +124,11 @@ const UFCBetting = () => {
         </Box>
 
         <Box className={classes.bettingInfo}>
+          <Box
+            className={classes.youtube}
+            component={"img"}
+            src="/assets/icons/youtube.png"
+          />
           <Box className={classes.cooldown}>4 days, 12:23:12</Box>
           <Box className={classes.playTime}>
             {getPSTTimeFromTimestamp(matchInfo?.time || 0)}
@@ -185,7 +190,7 @@ const UFCBetting = () => {
             placeholder="Input the amounts"
             onChange={(e) => setBetAmount(e.target.value)}
           />
-          <Button onClick={handleClickCreateBet}>Create bet</Button>
+          <Button onClick={handleClickCreateBet}>Create a bet</Button>
         </Box>
         <Box
           className={classes.playerInfo}

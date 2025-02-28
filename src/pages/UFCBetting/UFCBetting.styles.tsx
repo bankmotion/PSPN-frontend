@@ -164,10 +164,29 @@ const styles = makeStyles()((theme: any) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
 
     [theme.breakpoints.down("sm")]: {
       zIndex: "auto",
       minHeight: 300,
+    },
+  },
+
+  youtube: {
+    display: "flex",
+    position: "absolute",
+    top: "65%",
+    left: "calc(50% - 25px)",
+    width: 50,
+    opacity: 0.8,
+    zIndex: 5,
+    cursor: "pointer",
+    scale: 1,
+    transition: "0.3s",
+
+    "&:hover": {
+      scale: 1.1,
+      transition: "0.3s",
     },
   },
 
