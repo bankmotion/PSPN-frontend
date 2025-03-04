@@ -12,6 +12,7 @@ import { switchNetwork } from "../../helper/network";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { getTokenBalanceByUser, setTokenBalance } from "../../redux/userSlice";
+import MobileSideBar from "./SideBar";
 
 interface LayoutProps {
   children: ReactNode;
@@ -54,15 +55,15 @@ const LayoutIndex: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <Box className={classes.body}>
-      <TopBar />
+      <TopBar showMobileSideBar={() => setShowMobileSideBar(true)} />
       <ToastContainer />
       <main className={classes.layout}>{children}</main>
 
-      {/* <MobileSideBar
+      <MobileSideBar
         showMobileSideBar={showMobileSideBar}
         toggleMobileSideBar={setShowMobileSideBar}
         onConnectWallet={connectWallet}
-      /> */}
+      />
       <ToastContainer />
     </Box>
   );

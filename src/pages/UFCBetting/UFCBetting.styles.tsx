@@ -199,7 +199,7 @@ const styles = makeStyles()((theme: any) => ({
     [theme.breakpoints.down("sm")]: {
       // marginTop: 0,
       fontSize: 20,
-      zIndex: 20,
+      zIndex: 10,
     },
   },
 
@@ -274,7 +274,7 @@ const styles = makeStyles()((theme: any) => ({
 
     [theme.breakpoints.down("sm")]: {
       fontSize: 17,
-      zIndex: 20,
+      zIndex: 10,
       marginTop: -24,
     },
   },
@@ -306,7 +306,7 @@ const styles = makeStyles()((theme: any) => ({
 
     [theme.breakpoints.down("sm")]: {
       fontSize: 24,
-      zIndex: 20,
+      zIndex: 10,
     },
   },
 

@@ -33,8 +33,20 @@ const styles = makeStyles()((theme: any) => ({
     },
 
     [theme.breakpoints.down("sm")]: {
+      display: "grid",
       justifyContent: "center",
       position: "relative",
+      gridTemplateColumns: "1fr 1fr 1fr",
+    },
+  },
+
+  menuIcon: {
+    display: "none",
+
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
+      justifyContent: "left",
+      alignItems: "center",
     },
   },
 
@@ -55,6 +67,16 @@ const styles = makeStyles()((theme: any) => ({
       [theme.breakpoints.down("lg")]: {
         height: 60,
       },
+    },
+  },
+
+  walletConnection: {
+    display: "none",
+
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
+      justifyContent: "right",
+      alignItems: "center",
     },
   },
 

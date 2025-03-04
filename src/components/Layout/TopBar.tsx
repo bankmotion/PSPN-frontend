@@ -1,22 +1,20 @@
 import { Box, Button } from "@mui/material";
-import isMobile from "is-mobile";
 
 import useStyles from "./topbar.styles";
 import useWallet from "../../hook/useWallet";
-import {
-  formatNumber,
-  formatNumberWithCommas,
-  getShortAddress,
-} from "../../utils";
+import { formatNumberWithCommas, getShortAddress } from "../../utils";
+import MenuIcon from "@mui/icons-material/Menu";
 
-import Blockies from "../Blockies/Blockies";
+import WalletIcon from "@mui/icons-material/Wallet";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import clsx from "clsx";
 import { Link, useLocation } from "react-router-dom";
 import { MenuItems } from "../../constants/layout";
 
-const TopBar = () => {
+const TopBar = ({ showMobileSideBar }: { showMobileSideBar: () => void }) => {
   const { classes } = useStyles();
 
   const { connectWallet, disconnectWallet, account, isConnected } = useWallet();
@@ -28,8 +26,18 @@ const TopBar = () => {
   return (
     <Box className={classes.body}>
       <Box className={classes.container}>
+        <Box className={classes.menuIcon}>
+          <MenuIcon onClick={showMobileSideBar} />
+        </Box>
         <Box className={classes.logoPart}>
           <Box component="img" src="/assets/main/logo.png" />
+        </Box>
+        <Box className={classes.walletConnection}>
+          {account ? (
+            <PowerSettingsNewIcon onClick={disconnectWallet} />
+          ) : (
+            <WalletIcon onClick={connectWallet} />
+          )}
         </Box>
         <Box className={classes.menuBar}>
           <Box className={classes.mainMenuBar}>

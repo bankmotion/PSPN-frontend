@@ -5,8 +5,8 @@ const styles = makeStyles()((theme: any) => ({
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    height: "100%",
     gap: 64,
+    paddingBottom: 32,
 
     [theme.breakpoints.down("lg")]: {
       gap: 32,
@@ -14,7 +14,7 @@ const styles = makeStyles()((theme: any) => ({
   },
 
   title: {
-    maxWidth: 1000,
+    maxWidth: 1100,
     textAlign: "center",
     fontWeight: "bold",
     filter: "brightness(1.5) drop-shadow(0px 0px 6px #b5b5b5)",
@@ -57,13 +57,14 @@ const styles = makeStyles()((theme: any) => ({
     maxWidth: 360,
     minWidth: 300,
     height: 120,
-    border: "3px solid #292a34",
+    border: "3px solid rgb(24,24,24)",
     borderRadius: 16,
     padding: "24px 16px",
     display: "flex",
     flexDirection: "column",
     gap: 12,
     position: "relative",
+    background: "#00000066",
 
     [theme.breakpoints.down("xl")]: {
       maxWidth: 300,
@@ -107,7 +108,7 @@ const styles = makeStyles()((theme: any) => ({
   },
 
   titlePart: {
-    fontSize: 20,
+    fontSize: 17,
     display: "flex",
     gap: 8,
     alignItems: "center",
@@ -126,14 +127,16 @@ const styles = makeStyles()((theme: any) => ({
   },
 
   valuePart: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: "bold",
     marginLeft: 16,
     display: "flex",
     gap: 8,
+    alignItems: "end",
 
     "& span": {
       color: "#666873",
+      fontSize: 22,
     },
 
     [theme.breakpoints.down("xl")]: {
@@ -156,17 +159,17 @@ const styles = makeStyles()((theme: any) => ({
     color: "white",
     border: "none",
     borderRadius: 12,
-    fontSize: "17px",
+    fontSize: 14,
     fontWeight: 500,
     cursor: "pointer",
     minWidth: 120,
-    height: 40,
+    height: 32,
     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
     transition: "transform 0.2s, box-shadow 0.2s",
     textTransform: "none",
     display: "flex",
     gap: 8,
-    width: 160,
+    width: 140,
 
     "&:hover": {
       transform: "translateY(-2px)",
@@ -202,6 +205,43 @@ const styles = makeStyles()((theme: any) => ({
 
     [theme.breakpoints.down("sm")]: {
       fontSize: 22,
+    },
+  },
+
+  tokenPanel: {
+    display: "flex",
+    gap: 48,
+
+    "&>div": {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 16,
+      fontSize: 24,
+      color: "#fff",
+      fontWeight: 600,
+      textShadow:
+        "0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3)",
+
+      "&>img": {
+        width: 120,
+        background:
+          "linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1))",
+        borderRadius: "50%",
+        padding: 12,
+        border: "4px solid rgba(255, 255, 255, 0.8)",
+        boxShadow:
+          "0 0 8px rgba(255, 255, 255, 0.3), 0 0 15px rgba(255, 255, 255, 0.2), 0 0 25px rgba(255, 255, 255, 0.1)",
+        transition: "all 0.5s ease-in-out",
+
+        "&:hover": {
+          boxShadow:
+            "0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7), 0 0 45px rgba(255, 255, 255, 0.5)",
+          transform: "scale(1.15) rotate(3deg)",
+          filter: "brightness(1.3)",
+        },
+      },
     },
   },
 }));

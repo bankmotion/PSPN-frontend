@@ -15,9 +15,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
 
-          {/* <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/home" element={<Dashboard />} />
 
-          <Route path="/swap" element={<Swap />} /> */}
+          <Route path="/swap" element={<Swap />} />
 
           <Route path="/ufc" element={<UFC />} />
 
