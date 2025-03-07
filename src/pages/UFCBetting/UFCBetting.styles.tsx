@@ -262,7 +262,7 @@ const styles = makeStyles()((theme: any) => ({
     width: "130%",
     height: "auto",
     zIndex: 2,
-    marginTop: -48,
+    marginTop: -80,
 
     [theme.breakpoints.down("sm")]: {
       width: "70%",
