@@ -1,5 +1,4 @@
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import SavingsIcon from "@mui/icons-material/Savings";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { Box, Button, CircularProgress } from "@mui/material";
 import clsx from "clsx";
@@ -26,18 +25,16 @@ const Dashboard: React.FC = () => {
 
   const [expectedYeildAmount, setExpectedYieldAmount] = useState(0);
 
-  const { account } = useWallet();
-  const {
-    myTokenBalance,
-    myUFCTokenBalance,
-    yieldInfo,
-    dailyYieldRate,
-    loadingClaimYield,
-  } = useSelector((state: RootState) => state.user);
-
-  console.log({ dailyYieldRate });
+  const { account, connectWallet } = useWallet();
+  const { myTokenBalance, myUFCTokenBalance, yieldInfo, dailyYieldRate } =
+    useSelector((state: RootState) => state.user);
 
   const handleClaimYields = () => {
+    if (!account) {
+      connectWallet();
+      return;
+    }
+
     dispatch(handleClaimYield({ account }))
       .unwrap()
       .then(() => {
@@ -79,9 +76,6 @@ const Dashboard: React.FC = () => {
     }
   }, [account, dispatch]);
 
-  const claimButtonEnabled =
-    !loadingClaimYield && account && expectedYeildAmount;
-
   return (
     <Box className={classes.body}>
       <Box className={classes.title}>
@@ -119,14 +113,9 @@ const Dashboard: React.FC = () => {
           <Box className={classes.buttonBox}>
             <Button
               className={classes.yieldClaimBtn}
-              disabled={!claimButtonEnabled}
               onClick={handleClaimYields}
             >
-              {loadingClaimYield ? (
-                <CircularProgress className={classes.loadingIcon} />
-              ) : (
-                "Claim Yield"
-              )}
+              Claim Yield
             </Button>
           </Box>
         </Box>

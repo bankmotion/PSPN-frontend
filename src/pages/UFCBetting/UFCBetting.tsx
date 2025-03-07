@@ -1,44 +1,53 @@
 import { Box, Button, TextField } from "@mui/material";
-import useStyles from "./UFCBetting.styles";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { UFCMatches } from "../../constants/ufc";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { UFCMatches } from "../../constants/ufc";
+import { UFCBetResult, UFCRoundStatus } from "../../enums/UFCBet";
+import useWallet from "../../hook/useWallet";
+import { UFCBet } from "../../interfaces/UFCBetType";
+import { AppDispatch, RootState } from "../../redux/store";
+import {
+  approveAction,
+  enterRound,
+  getCurrentRound,
+} from "../../redux/ufcSlice";
 import {
   formatNumberWithCommas,
   formatTimestamp,
-  getPSTTimeFromTimestamp,
+  getLocalTimeFromTimestamp,
   getShortAddress,
+  remainTime,
 } from "../../utils";
-import { toast } from "react-toastify";
-import useWallet from "../../hook/useWallet";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { getOdds } from "../../utils/ufcBet";
+import useStyles from "./UFCBetting.styles";
+import clsx from "clsx";
 
-const BettingList = () => {
+const BettingList = ({ items }: { items: UFCBet[] }) => {
   const { classes } = useStyles();
-  const { account } = useWallet();
+  const totalAmount = items.reduce((sum, item) => item.amount + sum, 0);
 
   return (
     <Box className={classes.listPanelBody}>
       <Box className={classes.listPanelHeader}>
-        <Box>14 Players</Box>
+        <Box>{items.length} Players</Box>
         <Box>
-          <Box component={"span"}>Total:</Box> {formatNumberWithCommas(3425323)}{" "}
+          <Box component={"span"}>Total:</Box>{" "}
+          {formatNumberWithCommas(totalAmount)}{" "}
           <Box component={"img"} src={`/assets/tokens/ufc.png`} />
         </Box>
       </Box>
       <Box className={classes.listPanelTable}>
-        {new Array(20).fill(1).map((_, index) => (
-          <Box className={classes.listDetail}>
+        {items.map((item, index) => (
+          <Box className={classes.listDetail} key={index}>
             <Box>{index + 1}</Box>
+            <Box>{getShortAddress(item.player)}</Box>
             <Box>
-              {getShortAddress("0x27fF805e7149AEA80C250a287b93124db88DdD5A")}
-            </Box>
-            <Box>
-              {formatNumberWithCommas(3425323)}{" "}
+              {formatNumberWithCommas(item.amount)}{" "}
               <Box component={"img"} src={`/assets/tokens/ufc.png`} />
             </Box>
-            <Box>{formatTimestamp(1738887322)}</Box>
+            <Box>{formatTimestamp(item.timestamp)}</Box>
             <Link to={`https://scan.pulsechain.com`} target={"blank"}>
               <Box
                 component={"img"}
@@ -59,16 +68,22 @@ const UFCBetting = () => {
   const navigation = useNavigate();
   const { account, connectWallet } = useWallet();
   const { myUFCTokenBalance } = useSelector((state: RootState) => state.user);
+  const dispatch: AppDispatch = useDispatch();
+
+  const { currentRound } = useSelector((state: RootState) => state.ufc);
 
   const [matchInfo, setMatchInfo] = useState(
     UFCMatches.find((info) => info.id === Number(id))
   );
   const [betAmount, setBetAmount] = useState("");
-  const [selectedPlayer, setSelectedPlayer] = useState(0);
+  const [selectedPlayer, setSelectedPlayer] = useState<UFCBetResult>(
+    UFCBetResult.Draw
+  );
+  const [curTime, setCurTime] = useState(new Date().getTime() / 1000);
 
   const handleClickPlayer = (selected: number) => {
     if (selected === selectedPlayer) {
-      setSelectedPlayer(0);
+      setSelectedPlayer(UFCBetResult.Draw);
       return;
     }
     setSelectedPlayer(selected);
@@ -79,7 +94,10 @@ const UFCBetting = () => {
       connectWallet();
       return;
     }
-    if (selectedPlayer === 0) {
+    if (
+      selectedPlayer !== UFCBetResult.Player1 &&
+      selectedPlayer !== UFCBetResult.Player2
+    ) {
       toast.info("Please select the player for creating bet");
       return;
     }
@@ -91,6 +109,25 @@ const UFCBetting = () => {
       toast.info("UFC balance is not enough");
       return;
     }
+
+    dispatch(approveAction({ amount: Number(betAmount), account }))
+      .unwrap()
+      .then(() => {
+        dispatch(
+          enterRound({
+            roundId: Number(id),
+            amount: Number(betAmount),
+            expectation: selectedPlayer,
+            account,
+          })
+        )
+          .unwrap()
+          .then(() => {
+            toast.success("Successfully entered.");
+            dispatch(getCurrentRound({ roundId: Number(id) }));
+            setBetAmount("");
+          });
+      });
   };
 
   useEffect(() => {
@@ -98,6 +135,21 @@ const UFCBetting = () => {
       navigation("/");
     }
   }, [matchInfo, navigation]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurTime(new Date().getTime() / 1000);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    dispatch(getCurrentRound({ roundId: Number(id) }));
+  }, [dispatch, id]);
+
+  if (!currentRound || !matchInfo) return <></>;
 
   return (
     <Box className={classes.body}>
@@ -113,25 +165,73 @@ const UFCBetting = () => {
         <Box className={classes.player1Img}>
           <Box
             component={"img"}
-            src={`/assets/ufc/${matchInfo?.matchId}/${matchInfo?.player1.img}.png`}
-            onClick={() => handleClickPlayer(1)}
+            src={`/assets/ufc/${matchInfo.matchId}/${matchInfo.player1.img}.png`}
+            onClick={() => handleClickPlayer(UFCBetResult.Player1)}
           />
           <Box className={classes.player1PoolInfo}>
             <Box component="img" src={`/assets/tokens/ufc.png`} />
-            {formatNumberWithCommas(123532)}{" "}
+            {formatNumberWithCommas(currentRound.player1TotalAmount || 0)}{" "}
             <Box className={classes.ufcText}>UFC</Box>
           </Box>
         </Box>
 
         <Box className={classes.bettingInfo}>
-          <Box
+          {/* <Box
             className={classes.youtube}
             component={"img"}
             src="/assets/icons/youtube.png"
-          />
-          <Box className={classes.cooldown}>4 days, 12:23:12</Box>
+          /> */}
+
+          {currentRound.status === UFCRoundStatus.Finished &&
+            currentRound.result !== UFCBetResult.Draw && (
+              <Box
+                className={clsx(
+                  classes.medal,
+                  currentRound.result === UFCBetResult.Player1
+                    ? classes.player1Medal
+                    : currentRound.result === UFCBetResult.Player2
+                    ? classes.player2Medal
+                    : null
+                )}
+                component={"img"}
+                src="/assets/icons/medal.png"
+              />
+            )}
+
+          <Box className={classes.cooldown}>
+            {currentRound.status === UFCRoundStatus.Started &&
+            currentRound.closeAt > curTime ? (
+              <>
+                <Box sx={{ color: "#4fe34f" }}>Live</Box>-{" "}
+                {remainTime((currentRound.closeAt || curTime) - curTime)}
+              </>
+            ) : currentRound.status === UFCRoundStatus.Closed ||
+              currentRound.status === UFCRoundStatus.Finishing ||
+              (currentRound.status === UFCRoundStatus.Started &&
+                currentRound.closeAt <= curTime) ? (
+              <Box sx={{ color: "yellow" }}>Waiting Result</Box>
+            ) : currentRound.status === UFCRoundStatus.Finished ? (
+              <Box sx={{ color: "white" }}>
+                {currentRound.result === UFCBetResult.Draw ? (
+                  <>
+                    Completed -{" "}
+                    <Box
+                      component={"span"}
+                      sx={{ color: "yellow", fontWeight: "bold" }}
+                    >
+                      Draw
+                    </Box>
+                  </>
+                ) : (
+                  "Completed"
+                )}
+              </Box>
+            ) : (
+              <></>
+            )}
+          </Box>
           <Box className={classes.playTime}>
-            {getPSTTimeFromTimestamp(matchInfo?.time || 0)}
+            {getLocalTimeFromTimestamp(currentRound.closeAt || curTime)}
           </Box>
           <Box
             component={"img"}
@@ -139,17 +239,23 @@ const UFCBetting = () => {
             className={classes.vsIcon}
           />
           <Box className={classes.weight}>
-            {matchInfo?.weight}
-            {matchInfo?.eventType ? ` - ` : null}
-            {matchInfo?.eventType}
+            {matchInfo.weight}
+            {matchInfo.eventType ? ` - ` : null}
+            {matchInfo.eventType}
           </Box>
           <Box className={classes.oddsInfo}>
             <Box component="span" className={classes.highBet}>
-              1.54
+              {getOdds(
+                currentRound.player1TotalAmount,
+                currentRound.player2TotalAmount
+              )}
             </Box>{" "}
             :{" "}
             <Box component="span" className={classes.lowBet}>
-              3.12
+              {getOdds(
+                currentRound.player2TotalAmount,
+                currentRound.player1TotalAmount
+              )}
             </Box>
           </Box>
         </Box>
@@ -157,12 +263,12 @@ const UFCBetting = () => {
         <Box className={classes.player2Img}>
           <Box
             component={"img"}
-            src={`/assets/ufc/${matchInfo?.matchId}/${matchInfo?.player2.img}.png`}
-            onClick={() => handleClickPlayer(2)}
+            src={`/assets/ufc/${matchInfo.matchId}/${matchInfo.player2.img}.png`}
+            onClick={() => handleClickPlayer(UFCBetResult.Player2)}
           />
           <Box className={classes.player2PoolInfo}>
             <Box component="img" src={`/assets/tokens/ufc.png`} />
-            {formatNumberWithCommas(123532)}{" "}
+            {formatNumberWithCommas(currentRound.player2TotalAmount)}{" "}
             <Box className={classes.ufcText}>UFC</Box>
           </Box>
         </Box>
@@ -171,11 +277,11 @@ const UFCBetting = () => {
       <Box className={classes.playerInfoPanel}>
         <Box
           className={classes.playerInfo}
-          onClick={() => handleClickPlayer(1)}
+          onClick={() => handleClickPlayer(UFCBetResult.Player1)}
         >
-          <Box className={classes.playerName}>{matchInfo?.player1.name}</Box>
-          <Box className={classes.playerStat}>({matchInfo?.player1.stat})</Box>
-          {selectedPlayer === 1 && (
+          <Box className={classes.playerName}>{currentRound.player1Name}</Box>
+          <Box className={classes.playerStat}>({matchInfo.player1.stat})</Box>
+          {selectedPlayer === UFCBetResult.Player1 && (
             <Box
               className={classes.player1CheckIcon}
               component={"img"}
@@ -190,15 +296,20 @@ const UFCBetting = () => {
             placeholder="Input the amounts"
             onChange={(e) => setBetAmount(e.target.value)}
           />
-          <Button onClick={handleClickCreateBet}>Create a bet</Button>
+          <Button
+            onClick={handleClickCreateBet}
+            disabled={currentRound.status !== UFCRoundStatus.Started}
+          >
+            Create a bet
+          </Button>
         </Box>
         <Box
           className={classes.playerInfo}
-          onClick={() => handleClickPlayer(2)}
+          onClick={() => handleClickPlayer(UFCBetResult.Player2)}
         >
-          <Box className={classes.playerName}>{matchInfo?.player2.name}</Box>
-          <Box className={classes.playerStat}>({matchInfo?.player2.stat})</Box>
-          {selectedPlayer === 2 && (
+          <Box className={classes.playerName}>{currentRound.player2Name}</Box>
+          <Box className={classes.playerStat}>({matchInfo.player2.stat})</Box>
+          {selectedPlayer === UFCBetResult.Player2 && (
             <Box
               className={classes.player2CheckIcon}
               component={"img"}
@@ -209,8 +320,8 @@ const UFCBetting = () => {
       </Box>
 
       <Box className={classes.bettingListPanel}>
-        <BettingList />
-        <BettingList />
+        <BettingList items={currentRound.player1Bets} />
+        <BettingList items={currentRound.player2Bets} />
       </Box>
     </Box>
   );

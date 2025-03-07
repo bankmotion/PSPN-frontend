@@ -1,44 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ContractConfig } from "../config/config";
-import {
-  estimateSwap,
-  getTokenRatio,
-  internalSwap,
-} from "../helper/contract/internalSwap";
 import { approveToken } from "../helper/contract";
+import { estimateSwap, internalSwap } from "../helper/contract/internalSwap";
 
 interface SwapState {
-  fromRatio: number;
-  toRatio: number;
-  loadingTokenPrice: boolean;
+  loadingInternalSwap: string;
 
-  estimateSwapAmount: number;
   loadingEstimateSwapAmount: boolean;
-
-  loadingInternalSwap: boolean;
+  fromTokenIndex: number;
+  toTokenIndex: number;
+  fromAmount: string;
+  toAmount: string;
 }
 
 const initialState: SwapState = {
-  fromRatio: 0,
-  toRatio: 0,
-  loadingTokenPrice: false,
+  loadingInternalSwap: "",
 
-  estimateSwapAmount: 0,
   loadingEstimateSwapAmount: false,
-
-  loadingInternalSwap: false,
+  fromTokenIndex: 0,
+  toTokenIndex: 1,
+  fromAmount: "",
+  toAmount: "",
 };
-
-export const getAllTokensPrice = createAsyncThunk(
-  "swap/getAllTokensPrice",
-  async ({ from, to }: { from?: string; to?: string }) => {
-    const fromRatio = from ? await getTokenRatio(from) : -1;
-    const toRatio = to ? await getTokenRatio(to) : -1;
-    // console.log({fromRatio, toRatio})
-
-    return { fromRatio, toRatio };
-  }
-);
 
 export const getEstimatedSwapAmount = createAsyncThunk(
   "swap/getEstimatedSwapAmount",
@@ -46,13 +29,17 @@ export const getEstimatedSwapAmount = createAsyncThunk(
     from,
     to,
     amount,
+    direction,
   }: {
     from: string;
     to: string;
     amount: number;
+    direction: boolean;
   }) => {
-    const estimatedAmount = await estimateSwap(from, to, amount);
-    return estimatedAmount;
+    const estimatedAmount = direction
+      ? await estimateSwap(from, to, amount)
+      : await estimateSwap(to, from, amount);
+    return { estimatedAmount, direction };
   }
 );
 
@@ -69,7 +56,6 @@ export const handleInternalSwap = createAsyncThunk(
     amount: number;
     account: string;
   }) => {
-    console.log({ from, to, amount, account });
     await approveToken(
       from,
       amount,
@@ -84,46 +70,52 @@ export const handleInternalSwap = createAsyncThunk(
 export const swapSlice = createSlice({
   name: "swap",
   initialState,
-  reducers: {},
+  reducers: {
+    setFromTokenIndex: (state, action) => {
+      state.fromTokenIndex = action.payload;
+    },
+    setToTokenIndex: (state, action) => {
+      state.toTokenIndex = action.payload;
+    },
+    setFromAmount: (state, action) => {
+      state.fromAmount = action.payload;
+    },
+    setToAmount: (state, action) => {
+      state.toAmount = action.payload;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(getAllTokensPrice.pending, (state) => {
-      state.loadingTokenPrice = true;
-    });
-    builder.addCase(getAllTokensPrice.fulfilled, (state, { payload }) => {
-      state.loadingTokenPrice = false;
-      if (payload.fromRatio !== -1) {
-        state.fromRatio = payload.fromRatio;
-      }
-      if (payload.toRatio !== -1) {
-        state.toRatio = payload.toRatio;
-      }
-    });
-    builder.addCase(getAllTokensPrice.rejected, (state) => {
-      state.loadingTokenPrice = false;
-    });
-
-    builder.addCase(getEstimatedSwapAmount.pending, (state) => {
+    builder.addCase(getEstimatedSwapAmount.pending, (state, { payload }) => {
       state.loadingEstimateSwapAmount = true;
     });
     builder.addCase(getEstimatedSwapAmount.fulfilled, (state, { payload }) => {
       state.loadingEstimateSwapAmount = false;
-      state.estimateSwapAmount = payload;
+      if (payload.direction) {
+        state.toAmount = payload.estimatedAmount.toString();
+      } else {
+        state.fromAmount = payload.estimatedAmount.toString();
+      }
     });
     builder.addCase(getEstimatedSwapAmount.rejected, (state) => {
       state.loadingEstimateSwapAmount = false;
     });
 
     builder.addCase(handleInternalSwap.pending, (state) => {
-      state.loadingInternalSwap = true;
+      state.loadingInternalSwap = "Swapping";
     });
     builder.addCase(handleInternalSwap.fulfilled, (state) => {
-      state.loadingInternalSwap = false;
+      state.loadingInternalSwap = "";
     });
     builder.addCase(handleInternalSwap.rejected, (state) => {
-      state.loadingInternalSwap = false;
+      state.loadingInternalSwap = "";
     });
   },
 });
 
-export const {} = swapSlice.actions;
+export const {
+  setFromAmount,
+  setFromTokenIndex,
+  setToAmount,
+  setToTokenIndex,
+} = swapSlice.actions;
 export default swapSlice.reducer;

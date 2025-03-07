@@ -49,18 +49,20 @@ export const timerFormatStr = (digit: number) => {
   return digit < 10 ? `0${digit}` : digit;
 };
 
-export const getPSTTimeFromTimestamp = (timestamp: number) => {
+export const getLocalTimeFromTimestamp = (timestamp: number) => {
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "long",
     day: "numeric",
-    timeZone: "America/Los_Angeles", // PST (Pacific Standard Time) zone
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true, // Use 24-hour format
   };
 
   const date = new Date(timestamp * 1000);
   const formatter = new Intl.DateTimeFormat("en-US", options);
   const formattedDate = formatter.format(date);
-  return formattedDate;
+  return formattedDate.replace(" at ", " ");
 };
 
 export const formatTimestamp = (timestamp: number) => {

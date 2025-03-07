@@ -6,6 +6,11 @@ const styles = makeStyles()((theme: any) => ({
     flexDirection: "column",
   },
 
+  buttonGroup: {
+    display: "flex",
+    justifyContent: "end",
+  },
+
   panelBox: {
     display: "flex",
     flexDirection: "column",
@@ -30,6 +35,7 @@ const styles = makeStyles()((theme: any) => ({
     cursor: "pointer",
     userSelect: "none",
     transition: "0.3s",
+    position: "relative",
 
     [theme.breakpoints.down("xl")]: {
       height: 120,
@@ -169,6 +175,15 @@ const styles = makeStyles()((theme: any) => ({
     },
   },
 
+  medalIcon: {
+    position: "absolute",
+    width: 32,
+
+    [theme.breakpoints.down("sm")]: {
+      width: "32px!important",
+    },
+  },
+
   playerName: {
     fontSize: 24,
     fontWeight: "bold",
@@ -248,6 +263,7 @@ const styles = makeStyles()((theme: any) => ({
     flexDirection: "column",
     alignItems: "center",
     gap: 4,
+    position: "relative",
 
     "&>div:nth-of-type(1)": {
       fontSize: 12,
@@ -285,6 +301,7 @@ const styles = makeStyles()((theme: any) => ({
     textShadow:
       "rgb(250, 5, 161) 0px 0px 20px, rgb(250, 5, 161) 0px 0px 40px, rgb(250, 5, 161) 0px 0px 60px, rgb(250, 5, 161) 0px 0px 80px, rgb(250, 5, 161) 0px 0px 100px",
     filter: "drop-shadow(rgb(250, 5, 161) 0px 0px 100px)",
+    position: "relative",
 
     [theme.breakpoints.down("xl")]: {
       fontSize: 16,
@@ -314,6 +331,7 @@ const styles = makeStyles()((theme: any) => ({
     display: "flex",
     flexDirection: "column",
     gap: 8,
+    position: "relative",
 
     "&:hover": {
       backgroundColor: "#000000aa",
@@ -321,6 +339,14 @@ const styles = makeStyles()((theme: any) => ({
       boxShadow: "0px 6px 10px rgba(0, 0, 0, 1)",
       border: "3px solid rgb(44, 44, 44)",
     },
+  },
+
+  leftWinnerBelt: {
+    position: "absolute",
+    width: 180,
+    top: 0,
+    left: -40,
+    transform: "rotate(90deg)",
   },
 
   moPanelTop: {
@@ -349,6 +375,7 @@ const styles = makeStyles()((theme: any) => ({
     alignItems: "center",
     justifyContent: "center",
     gap: 4,
+    position: "relative",
 
     "&>div:nth-of-type(1)": {
       fontSize: 17,
@@ -397,6 +424,12 @@ const styles = makeStyles()((theme: any) => ({
     "&>div:nth-of-type(2)": {
       alignItems: "end",
     },
+  },
+
+  adminBtn: {
+    fontSize: 14,
+    textTransform: "none",
+    padding: "4px",
   },
 }));
 

@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { getTokenBalanceByUser, setTokenBalance } from "../../redux/userSlice";
 import MobileSideBar from "./SideBar";
+import LoadingBar from "./LoadingBar";
 
 interface LayoutProps {
   children: ReactNode;
@@ -55,6 +56,7 @@ const LayoutIndex: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <Box className={classes.body}>
+      <LoadingBar></LoadingBar>
       <TopBar showMobileSideBar={() => setShowMobileSideBar(true)} />
       <ToastContainer />
       <main className={classes.layout}>{children}</main>

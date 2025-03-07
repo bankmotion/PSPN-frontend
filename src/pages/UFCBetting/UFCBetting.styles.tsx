@@ -119,7 +119,7 @@ const styles = makeStyles()((theme: any) => ({
     display: "flex",
     alignItems: "center",
     gap: 8,
-    fontSize: 24,
+    fontSize: 36,
     fontWeight: "bold",
 
     [theme.breakpoints.down("sm")]: {
@@ -127,7 +127,7 @@ const styles = makeStyles()((theme: any) => ({
     },
 
     "& img": {
-      width: 40,
+      width: 54,
 
       [theme.breakpoints.down("sm")]: {
         width: 32,
@@ -142,7 +142,7 @@ const styles = makeStyles()((theme: any) => ({
     display: "flex",
     alignItems: "center",
     gap: 8,
-    fontSize: 24,
+    fontSize: 36,
     fontWeight: "bold",
 
     [theme.breakpoints.down("sm")]: {
@@ -150,7 +150,7 @@ const styles = makeStyles()((theme: any) => ({
     },
 
     "& img": {
-      width: 40,
+      width: 54,
 
       [theme.breakpoints.down("sm")]: {
         width: 32,
@@ -190,9 +190,27 @@ const styles = makeStyles()((theme: any) => ({
     },
   },
 
+  medal: {
+    position: "absolute",
+    width: 40,
+    top: "50%",
+    zIndex: 11,
+  },
+
+  player1Medal: {
+    left: "calc(50% - 120px)",
+  },
+
+  player2Medal: {
+    left: "calc(50% + 120px)",
+  },
+
   cooldown: {
-    fontSize: 28,
-    marginTop: 60,
+    fontSize: 40,
+    marginTop: 40,
+    display: "flex",
+    alignItems: "center",
+    gap: 4,
     textShadow:
       "1px 1px 0px #444, -1px -1px 0px #444, 1px -1px 0px #444, -1px 1px 0px #444",
 
@@ -281,7 +299,7 @@ const styles = makeStyles()((theme: any) => ({
 
   ufcText: {
     color: "gray",
-    fontSize: 15,
+    fontSize: 24,
   },
 
   highBet: {

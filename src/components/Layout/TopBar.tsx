@@ -41,8 +41,9 @@ const TopBar = ({ showMobileSideBar }: { showMobileSideBar: () => void }) => {
         </Box>
         <Box className={classes.menuBar}>
           <Box className={classes.mainMenuBar}>
-            {MenuItems.map((menu) => (
+            {MenuItems.map((menu, index) => (
               <Link
+                key={index}
                 to={menu.href[0]}
                 className={clsx(
                   menu.href.some((href) => href === currentRoute.pathname)

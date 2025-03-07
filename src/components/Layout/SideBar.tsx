@@ -1,13 +1,12 @@
-import { Box, Divider, Drawer, ListItemIcon } from "@mui/material";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useStyles } from "./SideBar.styles";
-import { MenuItems } from "../../constants/layout";
-import { formatNumberWithCommas, getShortAddress } from "../../utils";
-import clsx from "clsx";
+import { Box, Divider, Drawer } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { MenuItems } from "../../constants/layout";
 import useWallet from "../../hook/useWallet";
+import { RootState } from "../../redux/store";
+import { formatNumberWithCommas, getShortAddress } from "../../utils";
+import { useStyles } from "./SideBar.styles";
 
 const MobileSideBar = ({
   showMobileSideBar,
@@ -64,8 +63,9 @@ const MobileSideBar = ({
           return (
             <Box
               className={classes.menuDetail}
+              key={index}
               onClick={() => {
-                navigate(`${navLinks.href}`);
+                navigate(`${navLinks.href[0]}`);
                 toggleMobileSideBar(false);
               }}
             >

@@ -10,78 +10,89 @@ import {
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { SwapTokens } from "../../config/config";
 import useWallet from "../../hook/useWallet";
 import { AppDispatch, RootState } from "../../redux/store";
-import { getAllTokensPrice, handleInternalSwap } from "../../redux/swapSlice";
+import {
+  getEstimatedSwapAmount,
+  handleInternalSwap,
+  setFromAmount,
+  setFromTokenIndex,
+  setToAmount,
+  setToTokenIndex,
+} from "../../redux/swapSlice";
 import { getTokenBalanceByUser } from "../../redux/userSlice";
 import { formatNumberWithCommas } from "../../utils";
 import InputSelectCoin from "../InputSelectCoin/Index";
 import useStyles from "./index.styles";
-import { toast } from "react-toastify";
 
 export const SwapPanel = () => {
   const { classes } = useStyles();
-  const { account } = useWallet();
+  const { account, connectWallet } = useWallet();
   const dispatch: AppDispatch = useDispatch();
-  const { fromRatio, toRatio, loadingInternalSwap } = useSelector(
+  const { fromTokenIndex, toTokenIndex, fromAmount, toAmount } = useSelector(
     (state: RootState) => state.swap
   );
 
-  const [fromTokenIndex, setFromTokenIndex] = useState(0);
-  const [toTokenIndex, setToTokenIndex] = useState(1);
-  const [fromAmount, setFromAmount] = useState("");
-  const [toAmount, setToAmount] = useState("");
-  const [isUpdating, setIsUpdating] = useState(false);
-
-  const handleChangeFromAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeAmount = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fromStatus: boolean
+  ) => {
     const value = e.target.value;
-    setFromAmount(value);
-    if (!isUpdating) {
-      setIsUpdating(true);
-      const toAmount = (Number(value) / toRatio) * fromRatio;
-      setToAmount(
-        !isNaN(toAmount) ? Number(toAmount.toFixed(3)).toString() : ""
+    fromStatus ? dispatch(setFromAmount(value)) : dispatch(setToAmount(value));
+
+    if (!isNaN(Number(value))) {
+      dispatch(
+        getEstimatedSwapAmount({
+          from: SwapTokens[fromTokenIndex].address,
+          to: SwapTokens[toTokenIndex].address,
+          amount: Number(value),
+          direction: fromStatus,
+        })
       );
-      setIsUpdating(false);
     }
   };
 
-  const handleChangeToAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setToAmount(value);
-    if (!isUpdating) {
-      setIsUpdating(true);
-      const fromAmount = (Number(value) / fromRatio) * toRatio;
-      setFromAmount(
-        !isNaN(fromAmount) ? Number(fromAmount.toFixed(3)).toString() : ""
-      );
-      setIsUpdating(false);
-    }
-  };
-
-  const changeFromToken = (e: SelectChangeEvent<number>) => {
-    setFromTokenIndex(Number(e.target.value));
-    setFromAmount("0");
-    setToAmount("0");
-  };
-
-  const changeToToken = (e: SelectChangeEvent<number>) => {
-    setToTokenIndex(Number(e.target.value));
-    setFromAmount("0");
-    setToAmount("0");
+  const handleChangeToken = (
+    e: SelectChangeEvent<number>,
+    isFromToken: boolean
+  ) => {
+    isFromToken
+      ? dispatch(setFromTokenIndex(Number(e.target.value)))
+      : dispatch(setToTokenIndex(Number(e.target.value)));
+    dispatch(setToAmount(""));
+    dispatch(setFromAmount(""));
   };
 
   const handleClickExcIcon = () => {
     const tempIndex = fromTokenIndex;
     const tempAmount = fromAmount;
-    setFromTokenIndex(toTokenIndex);
-    setToTokenIndex(tempIndex);
-    setFromAmount(toAmount);
-    setToAmount(tempAmount);
+    dispatch(setFromTokenIndex(toTokenIndex));
+    dispatch(setToTokenIndex(tempIndex));
+    dispatch(setFromAmount(toAmount));
+    dispatch(setToAmount(tempAmount));
   };
 
   const handleClickExchange = () => {
+    if (fromTokenIndex === -1 || toTokenIndex === -1) {
+      toast.error("Please select token to swap");
+      return;
+    }
+    if (
+      fromAmount === "" ||
+      Number(fromAmount) === 0 ||
+      toAmount === "" ||
+      Number(toAmount) === 0
+    ) {
+      toast.error("Please input amount to swap");
+      return;
+    }
+
+    if (!account) {
+      connectWallet();
+      return;
+    }
     dispatch(
       handleInternalSwap({
         from: SwapTokens[fromTokenIndex].address,
@@ -93,46 +104,27 @@ export const SwapPanel = () => {
       .unwrap()
       .then(() => {
         dispatch(getTokenBalanceByUser({ account }));
-        setFromAmount("");
-        setToAmount("");
+        dispatch(setFromAmount(""));
+        dispatch(setToAmount(""));
         toast.success("Swapped successfully!");
       });
   };
-
-  const isEnableExchangeButton =
-    fromAmount &&
-    toAmount &&
-    !isNaN(Number(fromAmount)) &&
-    !isNaN(Number(toAmount)) &&
-    Number(fromAmount) &&
-    Number(toAmount) &&
-    !loadingInternalSwap;
 
   const inputEnabled = fromTokenIndex !== -1 && toTokenIndex !== -1;
 
   useEffect(() => {
     if (fromTokenIndex === -1) return;
     if (fromTokenIndex === toTokenIndex) {
-      setToTokenIndex(1 - fromTokenIndex);
+      dispatch(setToTokenIndex(1 - fromTokenIndex));
     }
   }, [fromTokenIndex]);
 
   useEffect(() => {
     if (toTokenIndex === -1) return;
     if (fromTokenIndex === toTokenIndex) {
-      setFromTokenIndex(1 - fromTokenIndex);
+      dispatch(setFromTokenIndex(1 - fromTokenIndex));
     }
   }, [toTokenIndex]);
-
-  useEffect(() => {
-    if (fromTokenIndex === -1) return;
-    dispatch(getAllTokensPrice({ from: SwapTokens[fromTokenIndex].address }));
-  }, [dispatch, fromTokenIndex]);
-
-  useEffect(() => {
-    if (toTokenIndex === -1) return;
-    dispatch(getAllTokensPrice({ to: SwapTokens[toTokenIndex].address }));
-  }, [dispatch, toTokenIndex]);
 
   return (
     <Box className={classes.body}>
@@ -145,7 +137,7 @@ export const SwapPanel = () => {
 
       <Box className={classes.exchangeInfo}>
         <Box>
-          {formatNumberWithCommas(Number(fromAmount))}{" "}
+          {formatNumberWithCommas(Number(fromAmount), 1)}{" "}
           <Box component={"span"}>
             {fromTokenIndex !== -1 && SwapTokens[fromTokenIndex].name}
           </Box>
@@ -154,7 +146,7 @@ export const SwapPanel = () => {
           <ArrowRightAltIcon />
         </Box>
         <Box>
-          {formatNumberWithCommas(Number(toAmount))}{" "}
+          {formatNumberWithCommas(Number(toAmount), 1)}{" "}
           <Box component={"span"}>
             {toTokenIndex !== -1 && SwapTokens[toTokenIndex].name}
           </Box>
@@ -164,10 +156,10 @@ export const SwapPanel = () => {
       <Box className={classes.inputBox} sx={{ mt: 4 }}>
         <Box className={classes.inputTitle}>Pay</Box>
         <InputSelectCoin
-          handleChange={changeFromToken}
+          handleChange={(e) => handleChangeToken(e, true)}
           selectedToken={fromTokenIndex}
           amount={fromAmount}
-          handleChangeAmount={handleChangeFromAmount}
+          handleChangeAmount={(e) => handleChangeAmount(e, true)}
           inputEnabled={inputEnabled}
         />
       </Box>
@@ -175,25 +167,18 @@ export const SwapPanel = () => {
       <Box className={classes.inputBox} sx={{ mt: 2 }}>
         <Box className={classes.inputTitle}>Get</Box>
         <InputSelectCoin
-          handleChange={changeToToken}
+          handleChange={(e) => handleChangeToken(e, false)}
           selectedToken={toTokenIndex}
           amount={toAmount}
-          handleChangeAmount={handleChangeToAmount}
+          handleChangeAmount={(e) => handleChangeAmount(e, false)}
           inputEnabled={inputEnabled}
         />
       </Box>
 
       <Divider color="#292a34" sx={{ mt: 4 }}></Divider>
 
-      <Button
-        className={classes.exchangeBtn}
-        disabled={!isEnableExchangeButton}
-        onClick={handleClickExchange}
-      >
-        Exchange{" "}
-        {loadingInternalSwap && (
-          <CircularProgress className={classes.loadingIcon} />
-        )}
+      <Button className={classes.exchangeBtn} onClick={handleClickExchange}>
+        Exchange
       </Button>
     </Box>
   );

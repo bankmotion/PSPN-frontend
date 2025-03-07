@@ -34,6 +34,7 @@ const styles = makeStyles()((theme: any) => ({
 
     [theme.breakpoints.down("sm")]: {
       fontSize: 20,
+      marginTop: 24,
     },
   },
 
@@ -65,6 +66,14 @@ const styles = makeStyles()((theme: any) => ({
     gap: 12,
     position: "relative",
     background: "#00000066",
+    cursor: "pointer",
+    transition: "0.3s",
+
+    "&:hover": {
+      transition: "0.3s",
+      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+      // border: "3px solid gray",
+    },
 
     [theme.breakpoints.down("xl")]: {
       maxWidth: 300,
@@ -82,6 +91,12 @@ const styles = makeStyles()((theme: any) => ({
     [theme.breakpoints.down("md")]: {
       gap: 12,
       height: "auto",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "auto",
+      width: "100%",
+      padding: "18px 24px",
     },
   },
 
@@ -212,6 +227,10 @@ const styles = makeStyles()((theme: any) => ({
     display: "flex",
     gap: 48,
 
+    [theme.breakpoints.down("sm")]: {
+      gap: 24,
+    },
+
     "&>div": {
       display: "flex",
       flexDirection: "column",
@@ -224,6 +243,10 @@ const styles = makeStyles()((theme: any) => ({
       textShadow:
         "0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3)",
 
+      [theme.breakpoints.down("sm")]: {
+        gap: 4,
+      },
+
       "&>img": {
         width: 120,
         background:
@@ -234,6 +257,10 @@ const styles = makeStyles()((theme: any) => ({
         boxShadow:
           "0 0 8px rgba(255, 255, 255, 0.3), 0 0 15px rgba(255, 255, 255, 0.2), 0 0 25px rgba(255, 255, 255, 0.1)",
         transition: "all 0.5s ease-in-out",
+
+        [theme.breakpoints.down("sm")]: {
+          width: 60,
+        },
 
         "&:hover": {
           boxShadow:

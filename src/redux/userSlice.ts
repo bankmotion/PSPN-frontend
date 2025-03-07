@@ -19,7 +19,7 @@ interface UserState {
   yieldInfo: UserYieldInfoType;
   dailyYieldRate: number;
 
-  loadingClaimYield: boolean;
+  loadingClaimYield: string;
 }
 
 const initialState: UserState = {
@@ -37,7 +37,7 @@ const initialState: UserState = {
   },
   dailyYieldRate: 0,
 
-  loadingClaimYield: false,
+  loadingClaimYield: "",
 };
 
 export const getTokenBalanceByUser = createAsyncThunk(
@@ -112,13 +112,13 @@ export const userSlice = createSlice({
     builder.addCase(getYieldInfo.rejected, (state) => {});
 
     builder.addCase(handleClaimYield.pending, (state) => {
-      state.loadingClaimYield = true;
+      state.loadingClaimYield = "Yield claiming";
     });
     builder.addCase(handleClaimYield.fulfilled, (state, { payload }) => {
-      state.loadingClaimYield = false;
+      state.loadingClaimYield = "";
     });
     builder.addCase(handleClaimYield.rejected, (state) => {
-      state.loadingClaimYield = false;
+      state.loadingClaimYield = "";
     });
   },
 });

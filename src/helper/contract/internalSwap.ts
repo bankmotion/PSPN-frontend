@@ -25,15 +25,6 @@ export const estimateSwap = async (
   return Number(ethers.formatEther(estimateAmount));
 };
 
-export const getTokenRatio = async (address: string) => {
-  const internalSwapContract = getInternalSwapContract();
-
-  const tokenPrice: any = await internalSwapContract.methods
-    .tokenPrice(address)
-    .call();
-  return Number(tokenPrice);
-};
-
 export const internalSwap = async (
   from: string,
   to: string,
